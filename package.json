@@ -1,0 +1,31 @@
+{
+  "name": "defile",
+  "version": "0.1.0",
+  "description": "Constructs a filtered list of files from glob and/or regex matchers",
+  "author": {
+    "name": "Elan Shanker",
+    "url": "http://github.com/es128"
+  },
+  "homepage": "https://github.com/es128/defile",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:es128/defile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/es128/defile/issues"
+  },
+  "main": "./index",
+  "keywords": [
+    "file",
+    "fs",
+    "list",
+    "glob",
+    "regex",
+    "regexp",
+    "regular",
+    "expression"
+  ],
+  "dependencies": {
+    "minimatch": "~0.2.12"
+  }
+}
