@@ -1,7 +1,7 @@
 {
   "name": "defile",
   "version": "0.1.0",
-  "description": "Constructs a filtered list of files from glob and/or regex matchers",
+  "description": "Constructs a filtered, ordered list of files from string, glob, regex, and/or function matchers",
   "author": {
     "name": "Elan Shanker",
     "url": "http://github.com/es128"
@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/es128/defile/issues"
   },
-  "main": "./index",
+  "main": "./lib",
   "keywords": [
     "file",
     "fs",
@@ -27,5 +27,8 @@
   ],
   "dependencies": {
     "minimatch": "~0.2.12"
+  },
+  "scripts": {
+    "prepublish": "rm -rf lib && coffee --bare --output lib/ src/"
   }
 }
