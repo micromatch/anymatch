@@ -16,6 +16,9 @@
   },
   "main": "./lib",
   "keywords": [
+    "match",
+    "any",
+    "string",
     "file",
     "fs",
     "list",
@@ -23,7 +26,8 @@
     "regex",
     "regexp",
     "regular",
-    "expression"
+    "expression",
+    "function"
   ],
   "dependencies": {
     "minimatch": "~0.2.12"
