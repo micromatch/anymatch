@@ -1,18 +1,18 @@
 {
-  "name": "defile",
+  "name": "anymatch",
   "version": "0.1.0",
-  "description": "Constructs a filtered, ordered list of files from string, glob, regex, and/or function matchers",
+  "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
   "author": {
     "name": "Elan Shanker",
     "url": "http://github.com/es128"
   },
-  "homepage": "https://github.com/es128/defile",
+  "homepage": "https://github.com/es128/anymatch",
   "repository": {
     "type": "git",
-    "url": "git@github.com:es128/defile.git"
+    "url": "git@github.com:es128/anymatch.git"
   },
   "bugs": {
-    "url": "https://github.com/es128/defile/issues"
+    "url": "https://github.com/es128/anymatch/issues"
   },
   "main": "./lib",
   "keywords": [
