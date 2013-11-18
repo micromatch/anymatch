@@ -11,6 +11,6 @@ check = (criteria, string) ->
 		when '[object Function]'
 			criterion string
 
-check.checker = checker = (criteria) -> check.bind this, criteria
+check.checker = checker = (criteria) -> check.bind null, criteria
 
 module.exports = check
