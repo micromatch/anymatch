@@ -1,15 +1,20 @@
 minimatch = require 'minimatch'
 
-anymatch = (criteria, string) ->
+anymatch = (criteria, string, returnIndex) ->
 	criteria = [criteria] if '[object Array]' isnt toString.call criteria
-	criteria.some (criterion) -> switch toString.call criterion
-		when '[object String]'
-			string is criterion or minimatch string, criterion
-		when '[object RegExp]'
-			criterion.test string
-		when '[object Function]'
-			criterion string
-		else false
+	matchIndex = -1
+	matched = criteria.some (criterion, index) ->
+		result = switch toString.call criterion
+			when '[object String]'
+				string is criterion or minimatch string, criterion
+			when '[object RegExp]'
+				criterion.test string
+			when '[object Function]'
+				criterion string
+			else false
+		matchIndex = index if result
+		result
+	if returnIndex then matchIndex else matched
 
 anymatch.matcher = (criteria) -> anymatch.bind null, criteria
 
