@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/es128/anymatch/issues"
   },
-  "main": "./lib",
+  "main": "lib",
   "keywords": [
     "match",
     "any",
@@ -34,5 +34,6 @@
   },
   "scripts": {
     "prepublish": "rm -rf lib && coffee --bare --output lib/ src/"
-  }
+  },
+  "license": "MIT"
 }
