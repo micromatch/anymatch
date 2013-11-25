@@ -1,6 +1,6 @@
 minimatch = require 'minimatch'
 
-check = (criteria, string) ->
+anymatch = (criteria, string) ->
 	criteria = [criteria] if '[object Array]' isnt toString.call criteria
 	criteria.some (criterion) -> switch toString.call criterion
 		when '[object String]'
@@ -11,6 +11,6 @@ check = (criteria, string) ->
 			criterion string
 		else false
 
-check.checker = checker = (criteria) -> check.bind null, criteria
+anymatch.matcher = (criteria) -> anymatch.bind null, criteria
 
-module.exports = check
+module.exports = anymatch

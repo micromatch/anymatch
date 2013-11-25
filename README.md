@@ -32,9 +32,9 @@ You can also use the `checker` method to get a function that has already been
 bound to your matchers.
 
 ```js
-var checker = anymatch.checker(matchers);
+var matcher = anymatch.matcher(matchers);
 
-checker('path/to/file.js'); // true
+matcher('path/to/file.js'); // true
 ```
 
 License
