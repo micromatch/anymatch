@@ -9,6 +9,15 @@ Usage
 -----
 `npm install anymatch --save`
 
+#### anymatch (matchers, testString, [returnIndex])
+* __matchers__: (_Array_|_String_|_RegExp_|_Function_)
+String to be directly matched, string with glob patterns, regular expression
+test, function that takes the testString as an argument and returns a truthy
+value if it should be matched, or an array of any number and mix of these types.
+* __testString__: (_String_) The string to test against the matchers.
+* __returnIndex__: (_Boolean_, _optional_) If true, return the array index of
+the first matcher that that testString matched, instead of a boolean result.
+
 ```js
 var anymatch = require('anymatch');
 
@@ -26,6 +35,9 @@ anymatch(matchers, 'path/anyjs/baz.js'); // true
 anymatch(matchers, 'path/to/foo.js'); // true
 anymatch(matchers, 'path/to/bar.js'); // true
 anymatch(matchers, 'bar.js'); // false
+
+// returnIndex = true
+anymatch(matchers, 'foo.js', true); // 2
 ```
 
 You can also use the `checker` method to get a function that has already been
@@ -35,6 +47,7 @@ bound to your matchers.
 var matcher = anymatch.matcher(matchers);
 
 matcher('path/to/file.js'); // true
+matcher('path/anyjs/baz.js', true); // 1
 ```
 
 License
