@@ -14,7 +14,7 @@ anymatch = (criteria, string, returnIndex) ->
 			else false
 		matchIndex = index if result
 		result
-	if returnIndex then matchIndex else matched
+	if returnIndex is true then matchIndex else matched
 
 anymatch.matcher = (criteria) -> anymatch.bind null, criteria
 
