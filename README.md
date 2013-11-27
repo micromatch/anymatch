@@ -42,7 +42,7 @@ anymatch(matchers, 'foo.js', true); // 2
 
 #### anymatch.matcher (matchers)
 You can also use the `matcher` method to get a function that has already been
-bound to your matchers.
+bound to your matcher(s).
 
 ```js
 var matcher = anymatch.matcher(matchers);
