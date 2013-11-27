@@ -10,12 +10,12 @@ Usage
 `npm install anymatch --save`
 
 #### anymatch (matchers, testString, [returnIndex])
-* __matchers__: (_Array_|_String_|_RegExp_|_Function_)
+* __matchers__: (_Array|String|RegExp|Function_)
 String to be directly matched, string with glob patterns, regular expression
 test, function that takes the testString as an argument and returns a truthy
 value if it should be matched, or an array of any number and mix of these types.
 * __testString__: (_String_) The string to test against the matchers.
-* __returnIndex__: (_Boolean_, _optional_) If true, return the array index of
+* __returnIndex__: (_Boolean [optional]_) If true, return the array index of
 the first matcher that that testString matched, instead of a boolean result.
 
 ```js
@@ -40,7 +40,8 @@ anymatch(matchers, 'bar.js'); // false
 anymatch(matchers, 'foo.js', true); // 2
 ```
 
-You can also use the `checker` method to get a function that has already been
+#### anymatch.matcher (matchers)
+You can also use the `matcher` method to get a function that has already been
 bound to your matchers.
 
 ```js
