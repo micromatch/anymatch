@@ -1,9 +1,11 @@
+'use strict'
+
 minimatch = require 'minimatch'
 
-anymatch = (criteria, string, returnIndex, startIndex = 0) ->
+anymatch = (criteria, string, returnIndex, startIndex = 0, endIndex) ->
 	criteria = [criteria] if '[object Array]' isnt toString.call criteria
 	matchIndex = -1
-	matched = criteria.slice(startIndex).some (criterion, index) ->
+	matched = criteria.slice(startIndex, endIndex).some (criterion, index) ->
 		result = switch toString.call criterion
 			when '[object String]'
 				string is criterion or minimatch string, criterion
