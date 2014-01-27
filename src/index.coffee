@@ -1,9 +1,9 @@
 minimatch = require 'minimatch'
 
-anymatch = (criteria, string, returnIndex) ->
+anymatch = (criteria, string, returnIndex, startIndex = 0) ->
 	criteria = [criteria] if '[object Array]' isnt toString.call criteria
 	matchIndex = -1
-	matched = criteria.some (criterion, index) ->
+	matched = criteria.slice(startIndex).some (criterion, index) ->
 		result = switch toString.call criterion
 			when '[object String]'
 				string is criterion or minimatch string, criterion
@@ -12,7 +12,7 @@ anymatch = (criteria, string, returnIndex) ->
 			when '[object Function]'
 				criterion string
 			else false
-		matchIndex = index if result
+		matchIndex = index + startIndex if result
 		result
 	if returnIndex is true then matchIndex else matched
 
