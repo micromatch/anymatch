@@ -33,7 +33,13 @@
     "minimatch": "~0.2.12"
   },
   "scripts": {
-    "prepublish": "rm -rf lib && coffee --bare --output lib/ src/"
+    "prepublish": "rm -rf lib && coffee --bare --output lib/ src/",
+    "test": "rm -rf lib && coffee --bare --output lib/ src/ && istanbul test _mocha -- --compilers coffee:coffee-script/register"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "~1.7.1",
+    "mocha": "~1.17.1",
+    "istanbul": "~0.2.4"
+  }
 }
