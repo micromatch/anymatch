@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prepublish": "rm -rf lib && coffee --bare --output lib/ src/",
-    "test": "rm -rf lib && coffee --bare --output lib/ src/ && istanbul test _mocha -- --compilers coffee:coffee-script/register"
+    "test": "rm -rf lib && coffee --bare --output lib/ src/ && istanbul test _mocha -- test/test.* --compilers coffee:coffee-script/register"
   },
   "license": "MIT",
   "devDependencies": {
