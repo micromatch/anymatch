@@ -1,6 +1,6 @@
 {
   "name": "anymatch",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
   "author": {
     "name": "Elan Shanker",
