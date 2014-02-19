@@ -72,3 +72,14 @@ describe 'anymatch', ->
 			]
 			(expected = do arr.slice).splice arr.indexOf('bar.js'), 1
 			assert.deepEqual arr.filter(matchFunc), expected
+
+	describe 'using matcher subsets', ->
+		it 'should skip matchers before the startIndex', ->
+			assert     anymatch matchers, 'path/to/file.js', false
+			assert not anymatch matchers, 'path/to/file.js', false, 1
+
+		it 'should skip matchers after and including the endIndex', ->
+			assert     anymatch matchers, 'path/to/bars.js', false
+			assert not anymatch matchers, 'path/to/bars.js', false, 0, 3
+			assert not anymatch matchers, 'foo.js', false, 0, 1
+
