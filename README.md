@@ -1,4 +1,4 @@
-anymatch
+anymatch [![Build Status](https://travis-ci.org/es128/anymatch.svg)](https://travis-ci.org/es128/anymatch)
 ======
 Javascript module to match a string against a regular expression, glob, string,
 or function that takes the string as an argument and returns a truthy or falsy
