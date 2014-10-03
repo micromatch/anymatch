@@ -39,7 +39,7 @@
   "license": "MIT",
   "devDependencies": {
     "coffee-script": "~1.7.1",
-    "coveralls": "^2.11.2",
+    "coveralls": "~2.11.2",
     "istanbul": "~0.2.4",
     "mocha": "~1.17.1"
   }
