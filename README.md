@@ -52,13 +52,13 @@ anymatch(matchers, 'path/anyjs/foo.js', true, 2, 3); // 2
 anymatch(matchers, 'path/to/bar.js', true, 0, 3); // -1
 ```
 
-#### anymatch.matcher (matchers)
-You can also use the `matcher` method to get a function that has already been
-bound to your matcher(s). This can be used as an `Array.prototype.filter`
-callback.
+#### anymatch (matchers)
+You can also pass in only your matcher(s) to get a curried function that has
+already been bound to the provided matching criteria. This can be used as an
+`Array.prototype.filter` callback.
 
 ```js
-var matcher = anymatch.matcher(matchers);
+var matcher = anymatch(matchers);
 
 matcher('path/to/file.js'); // true
 matcher('path/anyjs/baz.js', true); // 1
