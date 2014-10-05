@@ -14,7 +14,6 @@
   "bugs": {
     "url": "https://github.com/es128/anymatch/issues"
   },
-  "main": "lib",
   "keywords": [
     "match",
     "any",
@@ -33,12 +32,10 @@
     "minimatch": "~0.2.12"
   },
   "scripts": {
-    "prepublish": "rm -rf lib && coffee --bare --output lib/ src/",
-    "test": "rm -rf lib && coffee --bare --output lib/ src/ && istanbul cover _mocha -- test/test.* --compilers coffee:coffee-script/register && cat ./coverage/lcov.info | coveralls"
+    "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
   "license": "MIT",
   "devDependencies": {
-    "coffee-script": "~1.7.1",
     "coveralls": "~2.11.2",
     "istanbul": "~0.2.4",
     "mocha": "~1.17.1"
