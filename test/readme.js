@@ -48,8 +48,8 @@ console.log("anymatch(matchers, 'path/to/bar.js', true, 0, 3);",
     " =>", i(anymatch(matchers, 'path/to/bar.js', true, 0, 3) )); // -1
 
 
-var matcher = anymatch.matcher(matchers);
-console.log( '\nvar matcher = anymatch.matcher(matchers);' );
+var matcher = anymatch(matchers);
+console.log( '\nvar matcher = anymatch(matchers);' );
 console.log("matcher('path/to/file.js');",
     " =>", i(matcher('path/to/file.js') )); // true
 console.log("matcher('path/anyjs/baz.js', true);",
