@@ -10,15 +10,12 @@ var matchers = [
   'path/anyjs/**/*.js',
   /foo.js$/,
   function (string) {
-    return string.indexOf('bar') !== -1 && string.length > 10
+    return string.indexOf('bar') !== -1 && string.length > 10;
   }
 ];
 
 console.log('var matchers =',
-  require('util').inspect(matchers, {colors: true})
-    .replace('[Function]', matchers[3].toString() + '\n'),
-  ';\n'
-);
+  i(matchers).replace('[Function]', matchers[3].toString() + '\n'), ';\n');
 
 console.log("anymatch(matchers, 'path/to/file.js');",
     " =>", i(anymatch(matchers, 'path/to/file.js') )); // true
