@@ -51,8 +51,8 @@ describe 'anymatch', ->
 			result = anymatch matchers, 'bar.js', true
 			assert.equal result, -1
 
-	describe 'bound matching function', ->
-		matchFunc = anymatch.matcher matchers
+	describe 'curried matching function', ->
+		matchFunc = anymatch matchers
 
 		it 'should resolve matchers', ->
 			assert     anymatch matchers, 'path/to/file.js'
