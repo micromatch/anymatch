@@ -2,10 +2,15 @@
   "name": "anymatch",
   "version": "1.0.0",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "author": {
     "name": "Elan Shanker",
     "url": "http://github.com/es128"
   },
+  "license": "ISC",
   "homepage": "https://github.com/es128/anymatch",
   "repository": {
     "type": "git",
@@ -28,13 +33,12 @@
     "expression",
     "function"
   ],
-  "dependencies": {
-    "minimatch": "~1.0.0"
-  },
   "scripts": {
     "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
-  "license": "ISC",
+  "dependencies": {
+    "minimatch": "~1.0.0"
+  },
   "devDependencies": {
     "coveralls": "~2.11.2",
     "istanbul": "~0.3.2",
