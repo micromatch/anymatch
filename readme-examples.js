@@ -2,7 +2,7 @@ var inspect = require('util').inspect;
 var i = function (val) {return inspect(val, {colors: true})};
 
 
-var anymatch = require('..');
+var anymatch = require('./');
 console.log("var anymatch = require('anymatch');\n");
 
 var matchers = [
