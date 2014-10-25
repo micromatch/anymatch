@@ -34,7 +34,7 @@
   "scripts": {
     "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
     "coveralls": "~2.11.2",
     "istanbul": "~0.3.2",

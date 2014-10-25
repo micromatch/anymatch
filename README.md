@@ -69,4 +69,4 @@ matcher('path/anyjs/baz.js', true, 2); // -1
 
 License
 -------
-[MIT](https://raw.github.com/es128/anymatch/master/LICENSE)
+[ISC](https://raw.github.com/es128/anymatch/master/LICENSE)
