@@ -9,7 +9,7 @@
   "homepage": "https://github.com/es128/anymatch",
   "repository": {
     "type": "git",
-    "url": "git@github.com:es128/anymatch.git"
+    "url": "https://github.com/es128/anymatch"
   },
   "bugs": {
     "url": "https://github.com/es128/anymatch/issues"
