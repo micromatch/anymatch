@@ -10,7 +10,9 @@ allowing a very flexible user-defined config to define things like file paths.
 
 Usage
 -----
-`npm install anymatch --save`
+```bash
+$ npm install anymatch --save
+```
 
 #### anymatch (matchers, testString, [returnIndex], [startIndex], [endIndex])
 * __matchers__: (_Array|String|RegExp|Function_)
