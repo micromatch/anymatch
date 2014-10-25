@@ -6,7 +6,7 @@ value. The matcher can also be an array of any or all of these. Useful for
 allowing a very flexible user-defined config to define things like file paths.
 
 [![NPM](https://nodei.co/npm/anymatch.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/anymatch/)
-[![NPM](https://nodei.co/npm-dl/anymatch.png?height=3&months=6)](https://nodei.co/npm-dl/anymatch/)
+[![NPM](https://nodei.co/npm-dl/anymatch.png?height=3&months=9)](https://nodei.co/npm-dl/anymatch/)
 
 Usage
 -----
