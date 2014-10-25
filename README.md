@@ -67,6 +67,10 @@ matcher('path/anyjs/baz.js', true, 2); // -1
 ['foo.js', 'bar.js'].filter(matcher); // ['foo.js']
 ```
 
+Change Log
+----------
+[See release notes page on GitHub](https://github.com/es128/anymatch/releases)
+
 License
 -------
 [ISC](https://raw.github.com/es128/anymatch/master/LICENSE)
