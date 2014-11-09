@@ -36,32 +36,28 @@ describe('anymatch', function() {
     assert(!anymatch(matchers, 'bar.js'));
   });
   it('should ignore improperly typed matchers', function() {
-    var emptyObj;
-    emptyObj = {};
+    var emptyObj = {};
     assert(!anymatch(emptyObj, emptyObj));
     assert(!anymatch(Infinity, Infinity));
   });
+
   describe('with returnIndex = true', function() {
     it('should return the array index of first positive matcher', function() {
-      var result;
-      result = anymatch(matchers, 'foo.js', true);
+      var result = anymatch(matchers, 'foo.js', true);
       assert.equal(result, 2);
     });
     it('should return 0 if provided non-array matcher', function() {
-      var result;
-      result = anymatch(matchers[2], 'foo.js', true);
+      var result = anymatch(matchers[2], 'foo.js', true);
       assert.equal(result, 0);
     });
     it('should return -1 if no match', function() {
-      var result;
-      result = anymatch(matchers, 'bar.js', true);
+      var result = anymatch(matchers, 'bar.js', true);
       assert.equal(result, -1);
     });
   });
 
   describe('curried matching function', function() {
-    var matchFunc;
-    matchFunc = anymatch(matchers);
+    var matchFunc = anymatch(matchers);
     it('should resolve matchers', function() {
       assert(anymatch(matchers, 'path/to/file.js'));
       assert(anymatch(matchers, 'path/anyjs/baz.js'));
@@ -70,9 +66,16 @@ describe('anymatch', function() {
       assert(!anymatch(matchers, 'bar.js'));
     });
     it('should be usable as an Array.prototype.filter callback', function() {
-      var arr, expected;
-      arr = ['path/to/file.js', 'path/anyjs/baz.js', 'path/to/foo.js', 'path/to/bar.js', 'bar.js', 'foo.js'];
-      (expected = arr.slice()).splice(arr.indexOf('bar.js'), 1);
+      var arr = [
+        'path/to/file.js',
+        'path/anyjs/baz.js',
+        'path/to/foo.js',
+        'path/to/bar.js',
+        'bar.js',
+        'foo.js'
+      ];
+      var expected = arr.slice();
+      expected.splice(arr.indexOf('bar.js'), 1);
       assert.deepEqual(arr.filter(matchFunc), expected);
     });
   });
