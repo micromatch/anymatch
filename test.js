@@ -91,4 +91,18 @@ describe('anymatch', function() {
       assert(!anymatch(matchers, 'foo.js', false, 0, 1));
     });
   });
+
+  describe('extra args', function() {
+    it('should allow string to be passed as first member of an array', function() {
+      assert(anymatch(matchers, ['path/to/bar.js']));
+    });
+    it('should pass extra args to function matchers', function() {
+      matchers.push(function(string, arg1, arg2) { return arg1 || arg2; });
+      assert(!anymatch(matchers, 'bar.js'));
+      assert(!anymatch(matchers, ['bar.js', 0]));
+      assert(anymatch(matchers, ['bar.js', true]));
+      assert(anymatch(matchers, ['bar.js', 0, true]));
+      matchers.pop();
+    });
+  });
 });
