@@ -2,8 +2,9 @@
 
 var minimatch = require('minimatch');
 
-var anymatch = function(criteria, string, returnIndex, startIndex, endIndex) {
+var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   if (!Array.isArray(criteria)) { criteria = [criteria]; }
+  var string = Array.isArray(value) ? value[0] : value;
   if (arguments.length === 1) { return anymatch.bind(null, criteria); }
   if (startIndex == null) { startIndex = 0; }
   var matchIndex = -1;
@@ -17,7 +18,7 @@ var anymatch = function(criteria, string, returnIndex, startIndex, endIndex) {
       result = criterion.test(string);
       break;
     case '[object Function]':
-      result = criterion(string);
+      result = criterion.apply(null, Array.isArray(value) ? value : [value]);
       break;
     default:
       result = false;
