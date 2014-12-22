@@ -19,7 +19,10 @@ npm install anymatch --save
 String to be directly matched, string with glob patterns, regular expression
 test, function that takes the testString as an argument and returns a truthy
 value if it should be matched, or an array of any number and mix of these types.
-* __testString__: (_String_) The string to test against the matchers.
+* __testString__: (_String|Array_) The string to test against the matchers. If
+passed as an array, the first element of the array will be used as the
+`testString` for non-function matchers, while the entire array will be applied
+as the arguments for function matchers.
 * __returnIndex__: (_Boolean [optional]_) If true, return the array index of
 the first matcher that that testString matched, or -1 if no match, instead of a
 boolean result.
