@@ -4,9 +4,9 @@ var minimatch = require('minimatch');
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   if (!Array.isArray(criteria)) { criteria = [criteria]; }
-  var string = Array.isArray(value) ? value[0] : value;
   if (arguments.length === 1) { return anymatch.bind(null, criteria); }
-  if (startIndex == null) { startIndex = 0; }
+  var string = Array.isArray(value) ? value[0] : value;
+  if (!startIndex) { startIndex = 0; }
   var matchIndex = -1;
   function testCriteria (criterion, index) {
     var result;
