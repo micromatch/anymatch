@@ -8,7 +8,10 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   value = arrify(value);
   if (arguments.length === 1) {
     return criteria.length === 1 ?
-      micromatch.matcher(criteria[0]) : anymatch.bind(null, criteria);
+      micromatch.matcher(criteria[0]) :
+      anymatch.bind(null, criteria.map(function(criterion) {
+        return micromatch.matcher(criterion);
+      }));
   }
   startIndex = startIndex || 0;
   var string = value[0];
