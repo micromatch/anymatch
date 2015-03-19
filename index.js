@@ -4,7 +4,10 @@ var micromatch = require('micromatch');
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   if (!Array.isArray(criteria)) { criteria = [criteria]; }
-  if (arguments.length === 1) { return anymatch.bind(null, criteria); }
+  if (arguments.length === 1) {
+    return criteria.length === 1 ?
+      micromatch.matcher(criteria[0]) : anymatch.bind(null, criteria);
+  }
   var string = Array.isArray(value) ? value[0] : value;
   if (!startIndex) { startIndex = 0; }
   var matchIndex = -1;
