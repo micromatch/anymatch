@@ -1,15 +1,17 @@
 'use strict';
 
 var micromatch = require('micromatch');
+var arrify = require('arrify');
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
-  if (!Array.isArray(criteria)) { criteria = [criteria]; }
+  criteria = arrify(criteria);
+  value = arrify(value);
   if (arguments.length === 1) {
     return criteria.length === 1 ?
       micromatch.matcher(criteria[0]) : anymatch.bind(null, criteria);
   }
-  var string = Array.isArray(value) ? value[0] : value;
   if (!startIndex) { startIndex = 0; }
+  var string = value[0];
   var matchIndex = -1;
   function testCriteria (criterion, index) {
     var result;
@@ -21,7 +23,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
       result = criterion.test(string);
       break;
     case '[object Function]':
-      result = criterion.apply(null, Array.isArray(value) ? value : [value]);
+      result = criterion.apply(null, value);
       break;
     default:
       result = false;
