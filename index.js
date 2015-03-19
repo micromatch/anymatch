@@ -10,7 +10,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     return criteria.length === 1 ?
       micromatch.matcher(criteria[0]) : anymatch.bind(null, criteria);
   }
-  if (!startIndex) { startIndex = 0; }
+  startIndex = startIndex || 0;
   var string = value[0];
   var matchIndex = -1;
   function testCriteria (criterion, index) {
