@@ -1,6 +1,6 @@
 'use strict';
 
-var minimatch = require('minimatch');
+var micromatch = require('micromatch');
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   if (!Array.isArray(criteria)) { criteria = [criteria]; }
@@ -12,7 +12,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     var result;
     switch (toString.call(criterion)) {
     case '[object String]':
-      result = string === criterion || minimatch(string, criterion);
+      result = string === criterion || micromatch.isMatch(string, criterion);
       break;
     case '[object RegExp]':
       result = criterion.test(string);
