@@ -78,6 +78,16 @@ describe('anymatch', function() {
       expected.splice(arr.indexOf('bar.js'), 1);
       assert.deepEqual(arr.filter(matchFn), expected);
     });
+    it('should bind individual criterion', function() {
+      assert(anymatch(matchers[0])('path/to/file.js'));
+      assert(!anymatch(matchers[0])('path/to/other.js'));
+      assert(anymatch(matchers[1])('path/anyjs/baz.js'));
+      assert(!anymatch(matchers[1])('path/to/baz.js'));
+      assert(anymatch(matchers[2])('path/to/foo.js'));
+      assert(!anymatch(matchers[2])('path/to/foo.js.bak'));
+      assert(anymatch(matchers[3])('path/to/bar.js'));
+      assert(!anymatch(matchers[3])('bar.js'));
+    });
   });
 
   describe('using matcher subsets', function() {
