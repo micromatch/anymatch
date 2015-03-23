@@ -57,13 +57,13 @@ describe('anymatch', function() {
   });
 
   describe('curried matching function', function() {
-    var matchFunc = anymatch(matchers);
+    var matchFn = anymatch(matchers);
     it('should resolve matchers', function() {
-      assert(anymatch(matchers, 'path/to/file.js'));
-      assert(anymatch(matchers, 'path/anyjs/baz.js'));
-      assert(anymatch(matchers, 'path/to/foo.js'));
-      assert(anymatch(matchers, 'path/to/bar.js'));
-      assert(!anymatch(matchers, 'bar.js'));
+      assert(matchFn('path/to/file.js'));
+      assert(matchFn('path/anyjs/baz.js'));
+      assert(matchFn('path/to/foo.js'));
+      assert(matchFn('path/to/bar.js'));
+      assert(!matchFn('bar.js'));
     });
     it('should be usable as an Array.prototype.filter callback', function() {
       var arr = [
@@ -76,7 +76,17 @@ describe('anymatch', function() {
       ];
       var expected = arr.slice();
       expected.splice(arr.indexOf('bar.js'), 1);
-      assert.deepEqual(arr.filter(matchFunc), expected);
+      assert.deepEqual(arr.filter(matchFn), expected);
+    });
+    it('should bind individual criterion', function() {
+      assert(anymatch(matchers[0])('path/to/file.js'));
+      assert(!anymatch(matchers[0])('path/to/other.js'));
+      assert(anymatch(matchers[1])('path/anyjs/baz.js'));
+      assert(!anymatch(matchers[1])('path/to/baz.js'));
+      assert(anymatch(matchers[2])('path/to/foo.js'));
+      assert(!anymatch(matchers[2])('path/to/foo.js.bak'));
+      assert(anymatch(matchers[3])('path/to/bar.js'));
+      assert(!anymatch(matchers[3])('bar.js'));
     });
   });
 

@@ -37,7 +37,8 @@
     "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "minimatch": "~1.0.0"
+    "arrify": "^1.0.0",
+    "micromatch": "^2.1.0"
   },
   "devDependencies": {
     "coveralls": "~2.11.2",
