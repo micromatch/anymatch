@@ -7,11 +7,10 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   criteria = arrify(criteria);
   value = arrify(value);
   if (arguments.length === 1) {
-    return criteria.length === 1 ?
-      micromatch.matcher(criteria[0]) :
-      anymatch.bind(null, criteria.map(function(criterion) {
-        return micromatch.matcher(criterion);
-      }));
+    return anymatch.bind(null, criteria.map(function(criterion) {
+      return typeof criterion === 'string' ?
+        micromatch.matcher(criterion) : criterion;
+    }));
   }
   startIndex = startIndex || 0;
   var string = value[0];
