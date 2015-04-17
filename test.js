@@ -135,6 +135,15 @@ describe('anymatch', function() {
     });
   });
 
+  describe('glob negation', function() {
+    it('should respect negated globs included in a matcher array', function() {
+      assert(anymatch(matchers, 'path/anyjs/no/no.js'), 'matches existing glob');
+      matchers.push('!path/anyjs/no/*.js');
+      assert(!anymatch(matchers, 'path/anyjs/no/no.js'), 'should be negated');
+      matchers.pop();
+    });
+  });
+
   describe('windows paths', function() {
     var origSep = path.sep;
     path.sep = '\\';
