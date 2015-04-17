@@ -3,7 +3,7 @@
 var assert = require('assert');
 var rewire = require('rewire');
 
-var anymatch = rewire('.');
+var anymatch = rewire('./');
 
 describe('anymatch', function() {
   var matchers = [
