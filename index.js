@@ -10,14 +10,8 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   value = arrify(value);
   if (arguments.length === 1) {
     return anymatch.bind(null, criteria.map(function(criterion) {
-      if (typeof criterion !== 'string') {
-        return criterion;
-      }
-      var matcher = micromatch.matcher(criterion);
-      return function(string) {
-        return matcher(string) ||
-          platform === 'win32' && matcher(string.split('\\').join('/'));
-      };
+      return typeof criterion === 'string' ?
+        micromatch.matcher(criterion) : criterion;
     }));
   }
   startIndex = startIndex || 0;
