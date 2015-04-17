@@ -43,6 +43,7 @@
   "devDependencies": {
     "coveralls": "~2.11.2",
     "istanbul": "~0.3.2",
-    "mocha": "~1.21.4"
+    "mocha": "~1.21.4",
+    "rewire": "^2.3.1"
   }
 }

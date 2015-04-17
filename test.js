@@ -1,7 +1,9 @@
 'use strict';
 
-var anymatch = require('./');
 var assert = require('assert');
+var rewire = require('rewire');
+
+var anymatch = rewire('.');
 
 describe('anymatch', function() {
   var matchers = [
@@ -129,6 +131,33 @@ describe('anymatch', function() {
       assert.equal(matchFn1(['bar.js', 0], true), -1, 14);
       assert.equal(matchFn2(['bar.js', 0], true), -1, 15);
       matchers.pop();
+    });
+  });
+
+  describe('windows paths', function() {
+    anymatch.__set__('platform', 'win32');
+
+    // this sucks
+    var mmUtils = rewire('micromatch/lib/utils');
+    mmUtils.__set__('win32', true);
+    var mmExpand = rewire('micromatch/lib/expand');
+    mmExpand.__set__('utils', mmUtils);
+    var mm = rewire('micromatch');
+    mm.__set__('expand', mmExpand);
+    mm.__set__('utils', mmUtils);
+    anymatch.__set__('micromatch', mm);
+
+    it('should resolve backslashes against string matchers', function() {
+      assert(anymatch(matchers, 'path\\to\\file.js'));
+      assert(anymatch(matchers)('path\\to\\file.js'));
+    });
+    it('should resolve backslashes against glob matchers', function() {
+      assert(anymatch(matchers, 'path\\anyjs\\file.js'));
+      assert(anymatch(matchers)('path\\anyjs\\file.js'));
+    });
+    it('should resolve backslashes against regex matchers', function() {
+      assert(anymatch(/path\/to\/file\.js/, 'path\\to\\file.js'));
+      assert(anymatch(/path\/to\/file\.js/)('path\\to\\file.js'));
     });
   });
 });
