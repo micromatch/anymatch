@@ -43,9 +43,14 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     }
     return result;
   }
-  var negGlobs = criteria.filter(function(criterion, index) {
+  var crit = criteria;
+  var negGlobs = crit.filter(function(criterion, index) {
     if (typeof criterion === 'string' && criterion[0] === '!') {
-      criteria[index] = null;
+      if (crit === criteria) {
+        // make a copy before modifying
+        crit = crit.concat([]);
+      }
+      crit[index] = null;
       return true;
     }
   }).map(function(neg) {
@@ -56,7 +61,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
       altString = string.split('\\').join('/');
       altString = altString === string ? null : altString;
     }
-    matched = criteria.slice(startIndex, endIndex).some(testCriteria);
+    matched = crit.slice(startIndex, endIndex).some(testCriteria);
   }
   return returnIndex === true ? matchIndex : matched;
 };
