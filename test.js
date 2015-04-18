@@ -136,7 +136,7 @@ describe('anymatch', function() {
   });
 
   describe('glob negation', function() {
-    after(matchers.pop.bind(matchers));
+    after(matchers.splice.bind(matchers, 4, 2));
     it('should respect negated globs included in a matcher array', function() {
       assert(anymatch(matchers, 'path/anyjs/no/no.js'), 'matches existing glob');
       matchers.push('!path/anyjs/no/*.js');
@@ -148,6 +148,11 @@ describe('anymatch', function() {
       assert.equal(anymatch(matchers)('path/anyjs/yes.js', true), 1);
       assert.equal(anymatch(matchers, 'path/anyjs/no/no.js', true), -1);
       assert.equal(anymatch(matchers)('path/anyjs/no/no.js', true), -1);
+    });
+    it('should allow negated globs to negate non-glob matchers', function() {
+      assert.equal(anymatch(matchers, 'path/to/bar.js', true), 3);
+      matchers.push('!path/to/bar.*');
+      assert(!anymatch(matchers, 'path/to/bar.js'));
     });
   });
 
