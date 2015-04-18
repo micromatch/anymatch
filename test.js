@@ -141,10 +141,13 @@ describe('anymatch', function() {
       assert(anymatch(matchers, 'path/anyjs/no/no.js'), 'matches existing glob');
       matchers.push('!path/anyjs/no/*.js');
       assert(!anymatch(matchers, 'path/anyjs/no/no.js'), 'should be negated');
+      assert(!anymatch(matchers)('path/anyjs/no/no.js'), 'should be negated (curried)');
     });
     it('should not break returnIndex option', function() {
       assert.equal(anymatch(matchers, 'path/anyjs/yes.js', true), 1);
+      assert.equal(anymatch(matchers)('path/anyjs/yes.js', true), 1);
       assert.equal(anymatch(matchers, 'path/anyjs/no/no.js', true), -1);
+      assert.equal(anymatch(matchers)('path/anyjs/no/no.js', true), -1);
     });
   });
 
