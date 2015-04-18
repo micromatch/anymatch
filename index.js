@@ -9,7 +9,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   value = arrify(value);
   if (arguments.length === 1) {
     return anymatch.bind(null, criteria.map(function(criterion) {
-      return typeof criterion === 'string' ?
+      return typeof criterion === 'string' && criterion[0] !== '!' ?
         micromatch.matcher(criterion) : criterion;
     }));
   }
@@ -20,6 +20,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     altString = string.split('\\').join('/');
     altString = altString === string ? null : altString;
   }
+  var matched = false;
   var matchIndex = -1;
   function testCriteria (criterion, index) {
     var result;
@@ -37,10 +38,26 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     default:
       result = false;
     }
-    if (result) { matchIndex = index + startIndex; }
+    if (result) {
+      matchIndex = index + startIndex;
+    }
     return result;
   }
-  var matched = criteria.slice(startIndex, endIndex).some(testCriteria);
+  var negGlobs = criteria.filter(function(criterion, index) {
+    if (typeof criterion === 'string' && criterion[0] === '!') {
+      criteria[index] = null;
+      return true;
+    }
+  }).map(function(neg) {
+    return neg.substr(1);
+  });
+  if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
+    if (platform === 'win32' && typeof string === 'string') {
+      altString = string.split('\\').join('/');
+      altString = altString === string ? null : altString;
+    }
+    matched = criteria.slice(startIndex, endIndex).some(testCriteria);
+  }
   return returnIndex === true ? matchIndex : matched;
 };
 
