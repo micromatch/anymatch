@@ -16,10 +16,6 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   startIndex = startIndex || 0;
   var string = value[0];
   var altString;
-  if (path.sep === '\\' && typeof string === 'string') {
-    altString = string.split('\\').join('/');
-    altString = altString === string ? null : altString;
-  }
   var matched = false;
   var matchIndex = -1;
   function testCriteria (criterion, index) {
@@ -57,7 +53,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     return neg.substr(1);
   });
   if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
-    if (platform === 'win32' && typeof string === 'string') {
+    if (path.sep === '\\' && typeof string === 'string') {
       altString = string.split('\\').join('/');
       altString = altString === string ? null : altString;
     }
