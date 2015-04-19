@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var path = require('path');
 var rewire = require('rewire');
 
 var anymatch = rewire('./');
@@ -135,17 +136,12 @@ describe('anymatch', function() {
   });
 
   describe('windows paths', function() {
-    anymatch.__set__('platform', 'win32');
+    var origSep = path.sep;
+    path.sep = '\\';
 
-    // this sucks
-    var mmUtils = rewire('micromatch/lib/utils');
-    mmUtils.__set__('win32', true);
-    var mmExpand = rewire('micromatch/lib/expand');
-    mmExpand.__set__('utils', mmUtils);
-    var mm = rewire('micromatch');
-    mm.__set__('expand', mmExpand);
-    mm.__set__('utils', mmUtils);
-    anymatch.__set__('micromatch', mm);
+    after(function() {
+      path.sep = origSep;
+    });
 
     it('should resolve backslashes against string matchers', function() {
       assert(anymatch(matchers, 'path\\to\\file.js'));

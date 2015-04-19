@@ -1,9 +1,8 @@
 'use strict';
 
-var micromatch = require('micromatch');
 var arrify = require('arrify');
-
-var platform = process.platform;
+var micromatch = require('micromatch');
+var path = require('path');
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   criteria = arrify(criteria);
@@ -17,7 +16,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   startIndex = startIndex || 0;
   var string = value[0];
   var altString;
-  if (platform === 'win32' && typeof string === 'string') {
+  if (path.sep === '\\' && typeof string === 'string') {
     altString = string.split('\\').join('/');
     altString = altString === string ? null : altString;
   }
