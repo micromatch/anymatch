@@ -44,7 +44,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     if (typeof criterion === 'string' && criterion[0] === '!') {
       if (crit === criteria) {
         // make a copy before modifying
-        crit = crit.concat([]);
+        crit = crit.slice();
       }
       crit[index] = null;
       return true;
