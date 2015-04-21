@@ -40,18 +40,17 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     return result;
   }
   var crit = criteria;
-  var negGlobs = crit.filter(function(criterion, index) {
+  var negGlobs = crit.reduce(function(arr, criterion, index) {
     if (typeof criterion === 'string' && criterion[0] === '!') {
       if (crit === criteria) {
         // make a copy before modifying
         crit = crit.slice();
       }
       crit[index] = null;
-      return true;
+      arr.push(criterion.substr(1));
     }
-  }).map(function(neg) {
-    return neg.substr(1);
-  });
+    return arr;
+  }, []);
   if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
     if (path.sep === '\\' && typeof string === 'string') {
       altString = string.split('\\').join('/');
