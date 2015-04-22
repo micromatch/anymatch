@@ -9,17 +9,14 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   value = arrify(value);
   if (arguments.length === 1) {
     return anymatch.bind(null, criteria.map(function(criterion) {
-      return typeof criterion === 'string' ?
+      return typeof criterion === 'string' && criterion[0] !== '!' ?
         micromatch.matcher(criterion) : criterion;
     }));
   }
   startIndex = startIndex || 0;
   var string = value[0];
   var altString;
-  if (path.sep === '\\' && typeof string === 'string') {
-    altString = string.split('\\').join('/');
-    altString = altString === string ? null : altString;
-  }
+  var matched = false;
   var matchIndex = -1;
   function testCriteria (criterion, index) {
     var result;
@@ -37,10 +34,30 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     default:
       result = false;
     }
-    if (result) { matchIndex = index + startIndex; }
+    if (result) {
+      matchIndex = index + startIndex;
+    }
     return result;
   }
-  var matched = criteria.slice(startIndex, endIndex).some(testCriteria);
+  var crit = criteria;
+  var negGlobs = crit.reduce(function(arr, criterion, index) {
+    if (typeof criterion === 'string' && criterion[0] === '!') {
+      if (crit === criteria) {
+        // make a copy before modifying
+        crit = crit.slice();
+      }
+      crit[index] = null;
+      arr.push(criterion.substr(1));
+    }
+    return arr;
+  }, []);
+  if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
+    if (path.sep === '\\' && typeof string === 'string') {
+      altString = string.split('\\').join('/');
+      altString = altString === string ? null : altString;
+    }
+    matched = crit.slice(startIndex, endIndex).some(testCriteria);
+  }
   return returnIndex === true ? matchIndex : matched;
 };
 

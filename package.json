@@ -40,9 +40,8 @@
     "micromatch": "^2.1.5"
   },
   "devDependencies": {
-    "coveralls": "~2.11.2",
-    "istanbul": "~0.3.2",
-    "mocha": "~1.21.4",
-    "rewire": "^2.3.1"
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4"
   }
 }

@@ -1,10 +1,8 @@
 'use strict';
 
+var anymatch = require('./');
 var assert = require('assert');
 var path = require('path');
-var rewire = require('rewire');
-
-var anymatch = rewire('./');
 
 describe('anymatch', function() {
   var matchers = [
@@ -135,10 +133,33 @@ describe('anymatch', function() {
     });
   });
 
+  describe('glob negation', function() {
+    after(matchers.splice.bind(matchers, 4, 2));
+
+    it('should respect negated globs included in a matcher array', function() {
+      assert(anymatch(matchers, 'path/anyjs/no/no.js'), 'matches existing glob');
+      matchers.push('!path/anyjs/no/*.js');
+      assert(!anymatch(matchers, 'path/anyjs/no/no.js'), 'should be negated');
+      assert(!anymatch(matchers)('path/anyjs/no/no.js'), 'should be negated (curried)');
+    });
+    it('should not break returnIndex option', function() {
+      assert.equal(anymatch(matchers, 'path/anyjs/yes.js', true), 1);
+      assert.equal(anymatch(matchers)('path/anyjs/yes.js', true), 1);
+      assert.equal(anymatch(matchers, 'path/anyjs/no/no.js', true), -1);
+      assert.equal(anymatch(matchers)('path/anyjs/no/no.js', true), -1);
+    });
+    it('should allow negated globs to negate non-glob matchers', function() {
+      assert.equal(anymatch(matchers, 'path/to/bar.js', true), 3);
+      matchers.push('!path/to/bar.*');
+      assert(!anymatch(matchers, 'path/to/bar.js'));
+    });
+  });
+
   describe('windows paths', function() {
     var origSep = path.sep;
-    path.sep = '\\';
-
+    before(function() {
+      path.sep = '\\';
+    });
     after(function() {
       path.sep = origSep;
     });
@@ -154,6 +175,12 @@ describe('anymatch', function() {
     it('should resolve backslashes against regex matchers', function() {
       assert(anymatch(/path\/to\/file\.js/, 'path\\to\\file.js'));
       assert(anymatch(/path\/to\/file\.js/)('path\\to\\file.js'));
+    });
+    it('should still correctly handle forward-slash paths', function() {
+      assert(anymatch(matchers, 'path/to/file.js'));
+      assert(anymatch(matchers)('path/to/file.js'));
+      assert(!anymatch(matchers, 'path/no/no.js'));
+      assert(!anymatch(matchers)('path/no/no.js'));
     });
   });
 });
