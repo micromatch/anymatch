@@ -1,10 +1,8 @@
 'use strict';
 
+var anymatch = require('./');
 var assert = require('assert');
 var path = require('path');
-var rewire = require('rewire');
-
-var anymatch = rewire('./');
 
 describe('anymatch', function() {
   var matchers = [
