@@ -135,6 +135,7 @@ describe('anymatch', function() {
 
   describe('glob negation', function() {
     after(matchers.splice.bind(matchers, 4, 2));
+
     it('should respect negated globs included in a matcher array', function() {
       assert(anymatch(matchers, 'path/anyjs/no/no.js'), 'matches existing glob');
       matchers.push('!path/anyjs/no/*.js');
@@ -156,11 +157,9 @@ describe('anymatch', function() {
 
   describe('windows paths', function() {
     var origSep = path.sep;
-    
     before(function() {
       path.sep = '\\';
     });
-
     after(function() {
       path.sep = origSep;
     });
@@ -176,6 +175,12 @@ describe('anymatch', function() {
     it('should resolve backslashes against regex matchers', function() {
       assert(anymatch(/path\/to\/file\.js/, 'path\\to\\file.js'));
       assert(anymatch(/path\/to\/file\.js/)('path\\to\\file.js'));
+    });
+    it('should still correctly handle forward-slash paths', function() {
+      assert(anymatch(matchers, 'path/to/file.js'));
+      assert(anymatch(matchers)('path/to/file.js'));
+      assert(!anymatch(matchers, 'path/no/no.js'));
+      assert(!anymatch(matchers)('path/no/no.js'));
     });
   });
 });
