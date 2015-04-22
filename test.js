@@ -156,7 +156,10 @@ describe('anymatch', function() {
 
   describe('windows paths', function() {
     var origSep = path.sep;
-    path.sep = '\\';
+    
+    before(function() {
+      path.sep = '\\';
+    });
 
     after(function() {
       path.sep = origSep;
