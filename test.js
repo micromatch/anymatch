@@ -14,32 +14,32 @@ describe('anymatch', function() {
     }
   ];
   it('should resolve string matchers', function() {
-    assert(anymatch(matchers, 'path/to/file.js'));
-    assert(anymatch(matchers[0], 'path/to/file.js'));
-    assert(!anymatch(matchers[0], 'bar.js'));
+    assert.equal(true, anymatch(matchers, 'path/to/file.js'));
+    assert.equal(true, anymatch(matchers[0], 'path/to/file.js'));
+    assert.equal(false, anymatch(matchers[0], 'bar.js'));
   });
   it('should resolve glob matchers', function() {
-    assert(anymatch(matchers, 'path/anyjs/baz.js'));
-    assert(anymatch(matchers[1], 'path/anyjs/baz.js'));
-    assert(!anymatch(matchers[1], 'bar.js'));
+    assert.equal(true, anymatch(matchers, 'path/anyjs/baz.js'));
+    assert.equal(true, anymatch(matchers[1], 'path/anyjs/baz.js'));
+    assert.equal(false, anymatch(matchers[1], 'bar.js'));
   });
   it('should resolve regexp matchers', function() {
-    assert(anymatch(matchers, 'path/to/foo.js'));
-    assert(anymatch(matchers[2], 'path/to/foo.js'));
-    assert(!anymatch(matchers[2], 'bar.js'));
+    assert.equal(true, anymatch(matchers, 'path/to/foo.js'));
+    assert.equal(true, anymatch(matchers[2], 'path/to/foo.js'));
+    assert.equal(false, anymatch(matchers[2], 'bar.js'));
   });
   it('should resolve function matchers', function() {
-    assert(anymatch(matchers, 'path/to/bar.js'));
-    assert(anymatch(matchers[3], 'path/to/bar.js'));
-    assert(!anymatch(matchers[3], 'bar.js'));
+    assert.equal(true, anymatch(matchers, 'path/to/bar.js'));
+    assert.equal(true, anymatch(matchers[3], 'path/to/bar.js'));
+    assert.equal(false, anymatch(matchers[3], 'bar.js'));
   });
   it('should return false for unmatched strings', function() {
-    assert(!anymatch(matchers, 'bar.js'));
+    assert.equal(false, anymatch(matchers, 'bar.js'));
   });
   it('should ignore improperly typed matchers', function() {
     var emptyObj = {};
-    assert(!anymatch(emptyObj, emptyObj));
-    assert(!anymatch(Infinity, Infinity));
+    assert.equal(false, anymatch(emptyObj, emptyObj));
+    assert.equal(false, anymatch(Infinity, Infinity));
   });
 
   describe('with returnIndex = true', function() {
@@ -60,11 +60,11 @@ describe('anymatch', function() {
   describe('curried matching function', function() {
     var matchFn = anymatch(matchers);
     it('should resolve matchers', function() {
-      assert(matchFn('path/to/file.js'));
-      assert(matchFn('path/anyjs/baz.js'));
-      assert(matchFn('path/to/foo.js'));
-      assert(matchFn('path/to/bar.js'));
-      assert(!matchFn('bar.js'));
+      assert.equal(true, matchFn('path/to/file.js'));
+      assert.equal(true, matchFn('path/anyjs/baz.js'));
+      assert.equal(true, matchFn('path/to/foo.js'));
+      assert.equal(true, matchFn('path/to/bar.js'));
+      assert.equal(false, matchFn('bar.js'));
     });
     it('should be usable as an Array.prototype.filter callback', function() {
       var arr = [
