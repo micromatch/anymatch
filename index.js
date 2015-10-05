@@ -2,6 +2,7 @@
 
 var arrify = require('arrify');
 var micromatch = require('micromatch');
+var normalize = require('normalize-path');
 var path = require('path');
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
@@ -54,7 +55,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   }, []);
   if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
     if (path.sep === '\\' && typeof string === 'string') {
-      altString = string.split('\\').join('/');
+      altString = normalize(string);
       altString = altString === string ? null : altString;
       if (altString) altValue = [altString].concat(value.slice(1));
     }
