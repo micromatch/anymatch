@@ -15,10 +15,10 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   }
   startIndex = startIndex || 0;
   var string = value[0];
-  var altString;
+  var altString, altValue;
   var matched = false;
   var matchIndex = -1;
-  function testCriteria (criterion, index) {
+  function testCriteria(criterion, index) {
     var result;
     switch (toString.call(criterion)) {
     case '[object String]':
@@ -30,6 +30,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
       break;
     case '[object Function]':
       result = criterion.apply(null, value);
+      result = result || altValue && criterion.apply(null, altValue);
       break;
     default:
       result = false;
@@ -55,6 +56,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     if (path.sep === '\\' && typeof string === 'string') {
       altString = string.split('\\').join('/');
       altString = altString === string ? null : altString;
+      if (altString) altValue = [altString].concat(value.slice(1));
     }
     matched = crit.slice(startIndex, endIndex).some(testCriteria);
   }
