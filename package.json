@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "arrify": "^1.0.0",
-    "micromatch": "^2.1.5"
+    "micromatch": "^2.1.5",
+    "normalize-path": "^2.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",

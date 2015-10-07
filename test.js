@@ -10,7 +10,7 @@ describe('anymatch', function() {
     'path/anyjs/**/*.js',
     /foo.js$/,
     function(string) {
-      return string.indexOf('bar') !== -1 && string.length > 10;
+      return string.indexOf('/bar') !== -1 && string.length > 10;
     }
   ];
   it('should resolve string matchers', function() {
@@ -175,6 +175,10 @@ describe('anymatch', function() {
     it('should resolve backslashes against regex matchers', function() {
       assert(anymatch(/path\/to\/file\.js/, 'path\\to\\file.js'));
       assert(anymatch(/path\/to\/file\.js/)('path\\to\\file.js'));
+    });
+    it('should resolve backslashes against function matchers', function() {
+      assert(anymatch(matchers, 'path\\to\\bar.js'));
+      assert(anymatch(matchers)('path\\to\\bar.js'));
     });
     it('should still correctly handle forward-slash paths', function() {
       assert(anymatch(matchers, 'path/to/file.js'));
