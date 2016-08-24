@@ -2,7 +2,7 @@
 
 var micromatch = require('micromatch');
 var normalize = require('normalize-path');
-var path = require('path');
+var path = require('path'); // required for tests.
 var arrify = function(a) { return a == null ? [] : (Array.isArray(a) ? a : [a]); };
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
