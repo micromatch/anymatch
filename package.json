@@ -36,7 +36,6 @@
     "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "arrify": "^1.0.0",
     "micromatch": "^2.1.5",
     "normalize-path": "^2.0.0"
   },
