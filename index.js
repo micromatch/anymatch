@@ -2,7 +2,7 @@
 
 var micromatch = require('micromatch');
 var normalize = require('normalize-path');
-var separator = require('path').sep;
+var path = require('path');
 var arrify = function(a) { return a == null ? [] : (Array.isArray(a) ? a : [a]); };
 
 var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
@@ -54,7 +54,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
     return arr;
   }, []);
   if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
-    if (separator === '\\' && typeof string === 'string') {
+    if (path.sep === '\\' && typeof string === 'string') {
       altString = normalize(string);
       altString = altString === string ? null : altString;
       if (altString) altValue = [altString].concat(value.slice(1));
