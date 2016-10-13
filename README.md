@@ -41,8 +41,7 @@ var matchers = [
 	/foo.js$/,
 	function (string) {
 		return string.indexOf('bar') !== -1 && string.length > 10
-	},
-	'**/node_modules/**'
+	}
 ];
 
 anymatch(matchers, 'path/to/file.js'); // true
@@ -50,8 +49,6 @@ anymatch(matchers, 'path/anyjs/baz.js'); // true
 anymatch(matchers, 'path/to/foo.js'); // true
 anymatch(matchers, 'path/to/bar.js'); // true
 anymatch(matchers, 'bar.js'); // false
-anymatch(matchers, '/node_modules/bar.js'); // false
-anymatch(matchers, 'xyz/node_modules/bar.js'); // false
 
 // returnIndex = true
 anymatch(matchers, 'foo.js', true); // 2
@@ -61,6 +58,13 @@ anymatch(matchers, 'path/anyjs/foo.js', true); // 1
 anymatch(matchers, 'path/to/file.js', false, 1); // false
 anymatch(matchers, 'path/anyjs/foo.js', true, 2, 3); // 2
 anymatch(matchers, 'path/to/bar.js', true, 0, 3); // -1
+
+// using globs to match directories and their children
+anymatch('node_modules', 'node_modules'); // true
+anymatch('node_modules', 'node_modules/somelib/index.js'); // false
+anymatch('node_modules/**', 'node_modules/somelib/index.js'); // true
+anymatch('node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'); // false
+anymatch('**/node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'); // true
 ```
 
 #### anymatch (matchers)
