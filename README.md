@@ -41,7 +41,8 @@ var matchers = [
 	/foo.js$/,
 	function (string) {
 		return string.indexOf('bar') !== -1 && string.length > 10
-	}
+	},
+	'**/node_modules/**'
 ];
 
 anymatch(matchers, 'path/to/file.js'); // true
@@ -49,6 +50,8 @@ anymatch(matchers, 'path/anyjs/baz.js'); // true
 anymatch(matchers, 'path/to/foo.js'); // true
 anymatch(matchers, 'path/to/bar.js'); // true
 anymatch(matchers, 'bar.js'); // false
+anymatch(matchers, '/node_modules/bar.js'); // false
+anymatch(matchers, 'xyz/node_modules/bar.js'); // false
 
 // returnIndex = true
 anymatch(matchers, 'foo.js', true); // 2
