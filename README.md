@@ -38,7 +38,7 @@ var anymatch = require('anymatch');
 var matchers = [
 	'path/to/file.js',
 	'path/anyjs/**/*.js',
-	/foo.js$/,
+	/foo\.js$/,
 	function (string) {
 		return string.indexOf('bar') !== -1 && string.length > 10
 	}
