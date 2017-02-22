@@ -23,6 +23,10 @@ describe('anymatch', function() {
     assert.equal(true, anymatch(matchers[1], 'path/anyjs/baz.js'));
     assert.equal(false, anymatch(matchers[1], 'bar.js'));
   });
+  it('should ignore paths with dashes and dots', function() {
+    assert.equal(true, anymatch(matchers[1], 'path/anyjs/dashed-name/.dotted-name/file.js'));
+    assert.equal(true, anymatch(matchers[1], 'path/anyjs/dashed-name/.dotted-name/.doted-name2'));
+  });
   it('should resolve regexp matchers', function() {
     assert.equal(true, anymatch(matchers, 'path/to/foo.js'));
     assert.equal(true, anymatch(matchers[2], 'path/to/foo.js'));
