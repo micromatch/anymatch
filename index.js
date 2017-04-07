@@ -21,7 +21,7 @@ var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
   var matchIndex = -1;
   function testCriteria(criterion, index) {
     var result;
-    switch (toString.call(criterion)) {
+    switch (Object.prototype.toString.call(criterion)) {
     case '[object String]':
       result = string === criterion || altString && altString === criterion;
       result = result || micromatch.isMatch(string, criterion);
