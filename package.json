@@ -36,12 +36,12 @@
     "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "micromatch": "^2.1.5",
-    "normalize-path": "^2.0.0"
+    "micromatch": "^3.1.4",
+    "normalize-path": "^2.1.1"
   },
   "devDependencies": {
-    "coveralls": "^2.11.2",
-    "istanbul": "^0.3.13",
-    "mocha": "^2.2.4"
+    "coveralls": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^4.0.1"
   }
 }
