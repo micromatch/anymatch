@@ -10,13 +10,13 @@
     "url": "http://github.com/es128"
   },
   "license": "ISC",
-  "homepage": "https://github.com/es128/anymatch",
+  "homepage": "https://github.com/micromatch/anymatch",
   "repository": {
     "type": "git",
-    "url": "https://github.com/es128/anymatch"
+    "url": "https://github.com/micromatch/anymatch"
   },
   "bugs": {
-    "url": "https://github.com/es128/anymatch/issues"
+    "url": "https://github.com/micromatch/anymatch/issues"
   },
   "keywords": [
     "match",

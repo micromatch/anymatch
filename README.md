@@ -1,4 +1,4 @@
-anymatch [![Build Status](https://travis-ci.org/es128/anymatch.svg?branch=master)](https://travis-ci.org/es128/anymatch) [![Coverage Status](https://img.shields.io/coveralls/es128/anymatch.svg?branch=master)](https://coveralls.io/r/es128/anymatch?branch=master)
+anymatch [![Build Status](https://travis-ci.org/micromatch/anymatch.svg?branch=master)](https://travis-ci.org/micromatch/anymatch) [![Coverage Status](https://img.shields.io/coveralls/micromatch/anymatch.svg?branch=master)](https://coveralls.io/r/micromatch/anymatch?branch=master)
 ======
 Javascript module to match a string against a regular expression, glob, string,
 or function that takes the string as an argument and returns a truthy or falsy
@@ -86,7 +86,7 @@ matcher('path/anyjs/baz.js', true, 2); // -1
 
 Change Log
 ----------
-[See release notes page on GitHub](https://github.com/es128/anymatch/releases)
+[See release notes page on GitHub](https://github.com/micromatch/anymatch/releases)
 
 NOTE: As of v2.0.0, [micromatch](https://github.com/jonschlinkert/micromatch) moves away from minimatch-parity and inline with Bash. This includes handling backslashes differently (see https://github.com/micromatch/micromatch#backslashes for more information).
 
@@ -96,4 +96,4 @@ reported directly to the [micromatch issue tracker](https://github.com/jonschlin
 
 License
 -------
-[ISC](https://raw.github.com/es128/anymatch/master/LICENSE)
+[ISC](https://raw.github.com/micromatch/anymatch/master/LICENSE)
