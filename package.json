@@ -40,8 +40,8 @@
     "normalize-path": "^2.1.1"
   },
   "devDependencies": {
-    "coveralls": "^3.0.0",
+    "coveralls": "^2.7.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3"
+    "mocha": "^3.0.0"
   }
 }
