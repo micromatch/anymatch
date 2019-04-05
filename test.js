@@ -14,9 +14,9 @@ describe('anymatch', function() {
     }
   ];
   it('should resolve string matchers', function() {
-    assert.equal(true, anymatch(matchers, 'path/to/file.js'));
-    assert.equal(true, anymatch(matchers[0], 'path/to/file.js'));
-    assert.equal(false, anymatch(matchers[0], 'bar.js'));
+    assert(anymatch(matchers, 'path/to/file.js'));
+    assert(anymatch(matchers[0], 'path/to/file.js'));
+    assert(!anymatch(matchers[0], 'bar.js'));
   });
   it('should resolve glob matchers', function() {
     assert.equal(true, anymatch(matchers, 'path/anyjs/baz.js'));
@@ -38,8 +38,8 @@ describe('anymatch', function() {
   });
   it('should ignore improperly typed matchers', function() {
     var emptyObj = {};
-    assert.equal(false, anymatch(emptyObj, emptyObj));
-    assert.equal(false, anymatch(Infinity, Infinity));
+    assert.equal(false, anymatch(emptyObj, ''));
+    assert.equal(false, anymatch(Infinity, ''));
   });
 
   describe('with returnIndex = true', function() {
@@ -58,7 +58,10 @@ describe('anymatch', function() {
   });
 
   describe('curried matching function', function() {
-    var matchFn = anymatch(matchers);
+    var matchFn;
+    before(() => {
+      matchFn = anymatch(matchers);
+    });
     it('should resolve matchers', function() {
       assert.equal(true, matchFn('path/to/file.js'));
       assert.equal(true, matchFn('path/anyjs/baz.js'));
@@ -91,46 +94,46 @@ describe('anymatch', function() {
     });
   });
 
-  describe('using matcher subsets', function() {
-    it('should skip matchers before the startIndex', function() {
-      assert(anymatch(matchers, 'path/to/file.js', false));
-      assert(!anymatch(matchers, 'path/to/file.js', false, 1));
-    });
-    it('should skip matchers after and including the endIndex', function() {
-      assert(anymatch(matchers, 'path/to/bars.js', false));
-      assert(!anymatch(matchers, 'path/to/bars.js', false, 0, 3));
-      assert(!anymatch(matchers, 'foo.js', false, 0, 1));
-    });
-  });
+  // describe('using matcher subsets', function() {
+  //   it('should skip matchers before the startIndex', function() {
+  //     assert(anymatch(matchers, 'path/to/file.js', false));
+  //     assert(!anymatch(matchers, 'path/to/file.js', false, 1));
+  //   });
+  //   it('should skip matchers after and including the endIndex', function() {
+  //     assert(anymatch(matchers, 'path/to/bars.js', false));
+  //     assert(!anymatch(matchers, 'path/to/bars.js', false, 0, 3));
+  //     assert(!anymatch(matchers, 'foo.js', false, 0, 1));
+  //   });
+  // });
 
   describe('extra args', function() {
-    it('should allow string to be passed as first member of an array', function() {
-      assert(anymatch(matchers, ['path/to/bar.js']));
+    it('should not allow string to be passed as first member of an array', function() {
+      assert.throws(() => anymatch(matchers, ['path/to/bar.js']));
     });
-    it('should pass extra args to function matchers', function() {
-      matchers.push(function(string, arg1, arg2) { return arg1 || arg2; });
-      assert(!anymatch(matchers, 'bar.js'), 1);
-      assert(!anymatch(matchers, ['bar.js', 0]), 2);
-      assert(anymatch(matchers, ['bar.js', true]), 3);
-      assert(anymatch(matchers, ['bar.js', 0, true]), 4);
-      // with returnIndex
-      assert.equal(anymatch(matchers, ['bar.js', 1], true), 4, 5);
-      // curried versions
-      var matchFn1 = anymatch(matchers);
-      var matchFn2 = anymatch(matchers[4]);
-      assert(!matchFn1(['bar.js', 0]), 6);
-      assert(!matchFn2(['bar.js', 0]), 7);
-      assert(matchFn1(['bar.js', true]), 8);
-      assert(matchFn2(['bar.js', true]), 9);
-      assert(matchFn1(['bar.js', 0, true]), 10);
-      assert(matchFn2(['bar.js', 0, true]), 11);
-      // curried with returnIndex
-      assert.equal(matchFn1(['bar.js', 1], true), 4, 12);
-      assert.equal(matchFn2(['bar.js', 1], true), 0, 13);
-      assert.equal(matchFn1(['bar.js', 0], true), -1, 14);
-      assert.equal(matchFn2(['bar.js', 0], true), -1, 15);
-      matchers.pop();
-    });
+    // it('should pass extra args to function matchers', function() {
+    //   matchers.push(function(string, arg1, arg2) { return arg1 || arg2; });
+    //   assert(!anymatch(matchers, 'bar.js'), 1);
+    //   assert(!anymatch(matchers, ['bar.js', 0]), 2);
+    //   assert(anymatch(matchers, ['bar.js', true]), 3);
+    //   assert(anymatch(matchers, ['bar.js', 0, true]), 4);
+    //   // with returnIndex
+    //   assert.equal(anymatch(matchers, ['bar.js', 1], true), 4, 5);
+    //   // curried versions
+    //   var matchFn1 = anymatch(matchers);
+    //   var matchFn2 = anymatch(matchers[4]);
+    //   assert(!matchFn1(['bar.js', 0]), 6);
+    //   assert(!matchFn2(['bar.js', 0]), 7);
+    //   assert(matchFn1(['bar.js', true]), 8);
+    //   assert(matchFn2(['bar.js', true]), 9);
+    //   assert(matchFn1(['bar.js', 0, true]), 10);
+    //   assert(matchFn2(['bar.js', 0, true]), 11);
+    //   // curried with returnIndex
+    //   assert.equal(matchFn1(['bar.js', 1], true), 4, 12);
+    //   assert.equal(matchFn2(['bar.js', 1], true), 0, 13);
+    //   assert.equal(matchFn1(['bar.js', 0], true), -1, 14);
+    //   assert.equal(matchFn2(['bar.js', 0], true), -1, 15);
+    //   matchers.pop();
+    // });
   });
 
   describe('glob negation', function() {

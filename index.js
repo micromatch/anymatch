@@ -1,67 +1,74 @@
 'use strict';
 
-var micromatch = require('micromatch');
-var normalize = require('normalize-path');
-var path = require('path'); // required for tests.
-var arrify = function(a) { return a == null ? [] : (Array.isArray(a) ? a : [a]); };
+const micromatch = require('micromatch');
+const normalizePath = require('normalize-path');
+const {sep} = require('path'); // required for tests.
 
-var anymatch = function(criteria, value, returnIndex, startIndex, endIndex) {
-  criteria = arrify(criteria);
-  value = arrify(value);
-  if (arguments.length === 1) {
-    return anymatch.bind(null, criteria.map(function(criterion) {
-      return typeof criterion === 'string' && criterion[0] !== '!' ?
-        micromatch.matcher(criterion) : criterion;
-    }));
+/**
+ * @typedef {String|RegExp|{(string:String): Boolean}} AnymatchPattern
+ * @typedef {AnymatchPattern|Array<AnymatchPattern>} AnymatchMatcher
+ */
+
+const BANG = '!';
+const arrify = (item) => Array.isArray(item) ? item : [item];
+
+const createPattern = (matcher) => (string) => {
+  if (typeof matcher === 'function') {
+    return matcher(string);
   }
-  startIndex = startIndex || 0;
-  var string = value[0];
-  var altString, altValue;
-  var matched = false;
-  var matchIndex = -1;
-  function testCriteria(criterion, index) {
-    var result;
-    switch (Object.prototype.toString.call(criterion)) {
-    case '[object String]':
-      result = string === criterion || altString && altString === criterion;
-      result = result || micromatch.isMatch(string, criterion);
-      break;
-    case '[object RegExp]':
-      result = criterion.test(string) || altString && criterion.test(altString);
-      break;
-    case '[object Function]':
-      result = criterion.apply(null, value);
-      result = result || altValue && criterion.apply(null, altValue);
-      break;
-    default:
-      result = false;
-    }
-    if (result) {
-      matchIndex = index + startIndex;
-    }
-    return result;
+  if (typeof matcher === 'string') {
+    return matcher === string || micromatch.isMatch(string, matcher);
   }
-  var crit = criteria;
-  var negGlobs = crit.reduce(function(arr, criterion, index) {
-    if (typeof criterion === 'string' && criterion[0] === '!') {
-      if (crit === criteria) {
-        // make a copy before modifying
-        crit = crit.slice();
-      }
-      crit[index] = null;
-      arr.push(criterion.substr(1));
-    }
-    return arr;
-  }, []);
-  if (!negGlobs.length || !micromatch.any(string, negGlobs)) {
-    if (path.sep === '\\' && typeof string === 'string') {
-      altString = normalize(string);
-      altString = altString === string ? null : altString;
-      if (altString) altValue = [altString].concat(value.slice(1));
-    }
-    matched = crit.slice(startIndex, endIndex).some(testCriteria);
+  if (matcher instanceof RegExp) {
+    return matcher.test(string);
   }
-  return returnIndex === true ? matchIndex : matched;
+  return false;
+};
+
+/**
+ * @param {AnymatchMatcher} matchers
+ * @param {String} testString
+ * @param {Boolean=} returnIndex
+ * @returns {Boolean|Number|Function}
+ */
+const anymatch = (matchers, testString, returnIndex=false) => {
+  if (matchers == null) {
+    throw new TypeError('anymatch: specify first argument');
+  }
+  if (testString == null) {
+    return (testString, ri=false) => {
+      const returnIndex = typeof ri === 'boolean' ? ri : false;
+      return anymatch(matchers, testString, returnIndex);
+    }
+  }
+  if (typeof testString !== 'string') {
+    throw new TypeError('anymatch: second argument must be a string: got ' +
+      Object.prototype.toString.call(testString))
+  }
+
+  const unixified = normalizePath(testString);
+  const arrified = arrify(matchers);
+  const negatedGlobs = arrified
+    .filter(item => typeof item === 'string' && item.charAt(0) === BANG)
+    .map(item => item.slice(1));
+
+  // console.log('anymatch', {matchers, testString, containsNegatedGlob, negatedGlobs});
+
+  if (negatedGlobs.length > 0) {
+    if (micromatch.some(unixified, negatedGlobs)) {
+      return returnIndex ? -1 : false;
+    }
+  }
+
+  const patterns = arrified.map(createPattern);
+  for (let index=0; index < patterns.length; index++) {
+    const pattern = patterns[index];
+    if (pattern(unixified)) {
+      return returnIndex ? index : true;
+    }
+  }
+
+  return returnIndex ? -1 : false;
 };
 
 module.exports = anymatch;

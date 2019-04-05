@@ -1,9 +1,10 @@
 {
   "name": "anymatch",
-  "version": "2.0.0",
+  "version": "3.0.0-pre",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "author": {
     "name": "Elan Shanker",
@@ -36,12 +37,12 @@
     "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "micromatch": "^3.1.4",
-    "normalize-path": "^2.1.1"
+    "micromatch": "micromatch/micromatch#dev",
+    "normalize-path": "^3.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.7.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.0.0"
+    "mocha": "^6.0.2"
   }
 }
