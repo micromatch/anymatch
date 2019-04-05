@@ -65,7 +65,6 @@ var matcher = anymatch(matchers);
 
 matcher('path/to/file.js'); // true
 matcher('path/anyjs/baz.js', true); // 1
-matcher('path/anyjs/baz.js', true, 2); // -1
 
 ['foo.js', 'bar.js'].filter(matcher); // ['foo.js']
 ```
