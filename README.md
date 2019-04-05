@@ -14,7 +14,7 @@ Usage
 npm install anymatchx
 ```
 
-#### anymatch (matchers, testString, [returnIndex])
+#### anymatch(matchers, testString, [returnIndex])
 * __matchers__: (_Array|String|RegExp|Function_)
 String to be directly matched, string with glob patterns, regular expression
 test, function that takes the testString as an argument and returns a truthy
@@ -25,15 +25,13 @@ the first matcher that that testString matched, or -1 if no match, instead of a
 boolean result.
 
 ```js
-var anymatch = require('anymatch');
+const anymatch = require('anymatch');
 
-var matchers = [
+const matchers = [
 	'path/to/file.js',
 	'path/anyjs/**/*.js',
 	/foo\.js$/,
-	function (string) {
-		return string.indexOf('bar') !== -1 && string.length > 10
-	}
+	(string) => string.includes('bar') && string.length > 10
 ];
 
 anymatch(matchers, 'path/to/file.js'); // true
@@ -48,8 +46,6 @@ anymatch(matchers, 'path/anyjs/foo.js', true); // 1
 
 // skip matchers
 anymatch(matchers, 'path/to/file.js', false, 1); // false
-anymatch(matchers, 'path/anyjs/foo.js', true, 2, 3); // 2
-anymatch(matchers, 'path/to/bar.js', true, 0, 3); // -1
 
 // using globs to match directories and their children
 anymatch('node_modules', 'node_modules'); // true
@@ -59,7 +55,7 @@ anymatch('node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'); 
 anymatch('**/node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'); // true
 ```
 
-#### anymatch (matchers)
+#### anymatch(matchers)
 You can also pass in only your matcher(s) to get a curried function that has
 already been bound to the provided matching criteria. This can be used as an
 `Array#filter` callback.
