@@ -73,7 +73,7 @@ Change Log
 ----------
 [See release notes page on GitHub](https://github.com/micromatch/anymatch/releases)
 
-- **v3.0:**: Removed startIndex and endIndex arguments. Made function more strict.
+- **v3.0:**: `testString` can no longer be an Array. Removed `startIndex` and `endIndex` arguments.
 - **v2.0:** [micromatch](https://github.com/jonschlinkert/micromatch) moves away from minimatch-parity and inline with Bash. This includes handling backslashes differently (see https://github.com/micromatch/micromatch#backslashes for more information).
 - **v1.2:** anymatch uses [micromatch](https://github.com/jonschlinkert/micromatch)
 for glob pattern matching. Issues with glob pattern matching should be
