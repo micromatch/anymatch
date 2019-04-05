@@ -7,32 +7,22 @@ allowing a very flexible user-defined config to define things like file paths.
 
 __Note: This module has Bash-parity, please be aware that Windows-style backslashes are not supported as separators. See https://github.com/micromatch/micromatch#backslashes for more information.__
 
-[![NPM](https://nodei.co/npm/anymatch.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/anymatch/)
-[![NPM](https://nodei.co/npm-dl/anymatch.png?height=3&months=9)](https://nodei.co/npm-dl/anymatch/)
 
 Usage
 -----
 ```sh
-npm install anymatch --save
+npm install anymatchx
 ```
 
-#### anymatch (matchers, testString, [returnIndex], [startIndex], [endIndex])
+#### anymatch (matchers, testString, [returnIndex])
 * __matchers__: (_Array|String|RegExp|Function_)
 String to be directly matched, string with glob patterns, regular expression
 test, function that takes the testString as an argument and returns a truthy
 value if it should be matched, or an array of any number and mix of these types.
-* __testString__: (_String|Array_) The string to test against the matchers. If
-passed as an array, the first element of the array will be used as the
-`testString` for non-function matchers, while the entire array will be applied
-as the arguments for function matchers.
+* __testString__: (_String) The string to test against the matchers.
 * __returnIndex__: (_Boolean [optional]_) If true, return the array index of
 the first matcher that that testString matched, or -1 if no match, instead of a
 boolean result.
-* __startIndex, endIndex__: (_Integer [optional]_) Can be used to define a
-subset out of the array of provided matchers to test against. Can be useful
-with bound matcher functions (see below). When used with `returnIndex = true`
-preserves original indexing. Behaves the same as `Array.prototype.slice` (i.e.
-includes array members up to, but not including endIndex).
 
 ```js
 var anymatch = require('anymatch');
@@ -72,7 +62,7 @@ anymatch('**/node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'
 #### anymatch (matchers)
 You can also pass in only your matcher(s) to get a curried function that has
 already been bound to the provided matching criteria. This can be used as an
-`Array.prototype.filter` callback.
+`Array#filter` callback.
 
 ```js
 var matcher = anymatch(matchers);
@@ -88,9 +78,9 @@ Change Log
 ----------
 [See release notes page on GitHub](https://github.com/micromatch/anymatch/releases)
 
-NOTE: As of v2.0.0, [micromatch](https://github.com/jonschlinkert/micromatch) moves away from minimatch-parity and inline with Bash. This includes handling backslashes differently (see https://github.com/micromatch/micromatch#backslashes for more information).
-
-NOTE: As of v1.2.0, anymatch uses [micromatch](https://github.com/jonschlinkert/micromatch)
+- **v3.0:**: Removed startIndex and endIndex arguments. Made function more strict.
+- **v2.0:** [micromatch](https://github.com/jonschlinkert/micromatch) moves away from minimatch-parity and inline with Bash. This includes handling backslashes differently (see https://github.com/micromatch/micromatch#backslashes for more information).
+- **v1.2:** anymatch uses [micromatch](https://github.com/jonschlinkert/micromatch)
 for glob pattern matching. Issues with glob pattern matching should be
 reported directly to the [micromatch issue tracker](https://github.com/jonschlinkert/micromatch/issues).
 
