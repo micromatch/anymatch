@@ -5,13 +5,19 @@ const normalizePath = require('normalize-path');
 const {sep} = require('path'); // required for tests.
 
 /**
- * @typedef {String|RegExp|{(string:String): Boolean}} AnymatchPattern
+ * @typedef {(string:String) => Boolean} AnymatchStrBoolFn
+ * @typedef {String|RegExp|AnymatchStrBoolFn} AnymatchPattern
  * @typedef {AnymatchPattern|Array<AnymatchPattern>} AnymatchMatcher
  */
 
 const BANG = '!';
 const arrify = (item) => Array.isArray(item) ? item : [item];
 
+/**
+ *
+ * @param {AnymatchPattern} matcher
+ * @returns {AnymatchStrBoolFn}
+ */
 const createPattern = (matcher) => (string) => {
   if (typeof matcher === 'function') {
     return matcher(string);
@@ -31,12 +37,12 @@ const createPattern = (matcher) => (string) => {
  * @param {Boolean=} returnIndex
  * @returns {Boolean|Number|Function}
  */
-const anymatch = (matchers, testString, returnIndex=false) => {
+const anymatch = (matchers, testString, returnIndex = false) => {
   if (matchers == null) {
     throw new TypeError('anymatch: specify first argument');
   }
   if (testString == null) {
-    return (testString, ri=false) => {
+    return (testString, ri = false) => {
       const returnIndex = typeof ri === 'boolean' ? ri : false;
       return anymatch(matchers, testString, returnIndex);
     }
@@ -61,7 +67,7 @@ const anymatch = (matchers, testString, returnIndex=false) => {
   }
 
   const patterns = arrified.map(createPattern);
-  for (let index=0; index < patterns.length; index++) {
+  for (let index = 0; index < patterns.length; index++) {
     const pattern = patterns[index];
     if (pattern(unixified)) {
       return returnIndex ? index : true;
