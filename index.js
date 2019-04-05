@@ -5,8 +5,8 @@ const normalizePath = require('normalize-path');
 const {sep} = require('path'); // required for tests.
 
 /**
- * @typedef {(string:String) => Boolean} AnymatchStrBoolFn
- * @typedef {String|RegExp|AnymatchStrBoolFn} AnymatchPattern
+ * @typedef {(string:String) => boolean} AnymatchStrBoolFn
+ * @typedef {string|RegExp|AnymatchStrBoolFn} AnymatchPattern
  * @typedef {AnymatchPattern|Array<AnymatchPattern>} AnymatchMatcher
  */
 
@@ -35,7 +35,7 @@ const createPattern = (matcher) => (string) => {
  * @param {AnymatchMatcher} matchers
  * @param {String} testString
  * @param {Boolean=} returnIndex
- * @returns {Boolean|Number|Function}
+ * @returns {boolean|Number|Function}
  */
 const anymatch = (matchers, testString, returnIndex = false) => {
   if (matchers == null) {

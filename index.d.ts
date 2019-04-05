@@ -2,14 +2,10 @@
 
 import sep from 'path';
 
-// * @param {Array|Function|String|RegExp} matchers
-// * @param {String=} testString
-// * @param {Boolean=} returnIndex
-
-type AnymatchPattern = String|RegExp|{(string:String): Boolean};
+type AnymatchPattern = string|RegExp|{(string:string): boolean};
 type AnymatchMatcher = AnymatchPattern|Array<AnymatchPattern>
-function anymatch(matchers: AnymatchMatcher, testString: String): Boolean;
-function anymatch(matchers: AnymatchMatcher, testString: String, returnIndex: Boolean): Number;
-function anymatch(matchers: AnymatchMatcher): (testString: String) => Boolean;
-function anymatch(matchers: AnymatchMatcher): (testString: String, returnIndex: Boolean) => Number;
+declare function anymatch(matchers: AnymatchMatcher, testString: string): boolean;
+declare function anymatch(matchers: AnymatchMatcher, testString: string, returnIndex: boolean): number;
+declare function anymatch(matchers: AnymatchMatcher): (testString: string) => boolean;
+declare function anymatch(matchers: AnymatchMatcher): (testString: string, returnIndex: boolean) => number;
 export = anymatch;
