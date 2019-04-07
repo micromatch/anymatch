@@ -34,15 +34,15 @@
     "function"
   ],
   "scripts": {
-    "test": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls"
+    "test": "nyc mocha",
+    "mocha": "mocha"
   },
   "dependencies": {
-    "micromatch": "micromatch/micromatch#dev",
-    "normalize-path": "^3.0.0"
+    "normalize-path": "^3.0.0",
+    "picomatch": "github:micromatch/picomatch#dev"
   },
   "devDependencies": {
-    "coveralls": "^2.7.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^6.0.2"
+    "nyc": "^13.3.0",
+    "mocha": "^6.1.1"
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-const micromatch = require('micromatch');
+const picomatch = require('picomatch');
 const normalizePath = require('normalize-path');
 const {sep} = require('path'); // required for tests.
 
@@ -18,17 +18,22 @@ const arrify = (item) => Array.isArray(item) ? item : [item];
  * @param {AnymatchPattern} matcher
  * @returns {AnymatchStrBoolFn}
  */
-const createPattern = (matcher) => (string) => {
-  if (typeof matcher === 'function') {
-    return matcher(string);
+const createPattern = (matcher) => {
+  const isString = typeof matcher === 'string';
+  let glob;
+  if (isString) glob = picomatch(matcher);
+  return (string) => {
+    if (typeof matcher === 'function') {
+      return matcher(string);
+    }
+    if (isString) {
+      return matcher === string || glob(string);
+    }
+    if (matcher instanceof RegExp) {
+      return matcher.test(string);
+    }
+    return false;
   }
-  if (typeof matcher === 'string') {
-    return matcher === string || micromatch.isMatch(string, matcher);
-  }
-  if (matcher instanceof RegExp) {
-    return matcher.test(string);
-  }
-  return false;
 };
 
 /**
@@ -61,8 +66,11 @@ const anymatch = (matchers, testString, returnIndex = false) => {
   // console.log('anymatch', {matchers, testString, containsNegatedGlob, negatedGlobs});
 
   if (negatedGlobs.length > 0) {
-    if (micromatch.some(unixified, negatedGlobs)) {
-      return returnIndex ? -1 : false;
+    for (var i = 0; i < negatedGlobs.length; i++) {
+      const nglob = negatedGlobs[i];
+      if (picomatch(nglob)(unixified)) {
+        return returnIndex ? -1 : false;
+      }
     }
   }
 
