@@ -5,8 +5,8 @@ const normalizePath = require('normalize-path');
 const {sep} = require('path'); // required for tests.
 
 /**
- * @typedef {(string:String) => boolean} AnymatchStrBoolFn
- * @typedef {string|RegExp|AnymatchStrBoolFn} AnymatchPattern
+ * @typedef {(string:String) => boolean} AnymatchFn
+ * @typedef {string|RegExp|AnymatchFn} AnymatchPattern
  * @typedef {AnymatchPattern|Array<AnymatchPattern>} AnymatchMatcher
  */
 
@@ -16,7 +16,7 @@ const arrify = (item) => Array.isArray(item) ? item : [item];
 /**
  *
  * @param {AnymatchPattern} matcher
- * @returns {AnymatchStrBoolFn}
+ * @returns {AnymatchFn}
  */
 const createPattern = (matcher) => {
   const isString = typeof matcher === 'string';
@@ -37,6 +37,32 @@ const createPattern = (matcher) => {
 };
 
 /**
+ * @param {Array<AnymatchFn>} patterns
+ * @param {Array<AnymatchFn>} negatedGlobs
+ * @param {String} path
+ * @param {Boolean} returnIndex
+ */
+const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
+  const upath = normalizePath(path);
+  if (negatedGlobs.length > 0) {
+    for (let index = 0; index < negatedGlobs.length; index++) {
+      const nglob = negatedGlobs[index];
+      if (nglob(upath)) {
+        return returnIndex ? -1 : false;
+      }
+    }
+  }
+  for (let index = 0; index < patterns.length; index++) {
+    const pattern = patterns[index];
+    if (pattern(upath)) {
+      return returnIndex ? index : true;
+    }
+  }
+
+  return returnIndex ? -1 : false;
+};
+
+/**
  * @param {AnymatchMatcher} matchers
  * @param {String} testString
  * @param {Boolean=} returnIndex
@@ -46,10 +72,18 @@ const anymatch = (matchers, testString, returnIndex = false) => {
   if (matchers == null) {
     throw new TypeError('anymatch: specify first argument');
   }
+  // Early cache for matchers.
+  const mtchers = arrify(matchers);
+  const negatedGlobs = mtchers
+    .filter(item => typeof item === 'string' && item.charAt(0) === BANG)
+    .map(item => item.slice(1))
+    .map(item => picomatch(item));
+  const patterns = mtchers.map(createPattern);
+
   if (testString == null) {
     return (testString, ri = false) => {
       const returnIndex = typeof ri === 'boolean' ? ri : false;
-      return anymatch(matchers, testString, returnIndex);
+      return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
     }
   }
   if (typeof testString !== 'string') {
@@ -57,32 +91,7 @@ const anymatch = (matchers, testString, returnIndex = false) => {
       Object.prototype.toString.call(testString))
   }
 
-  const unixified = normalizePath(testString);
-  const arrified = arrify(matchers);
-  const negatedGlobs = arrified
-    .filter(item => typeof item === 'string' && item.charAt(0) === BANG)
-    .map(item => item.slice(1));
-
-  // console.log('anymatch', {matchers, testString, containsNegatedGlob, negatedGlobs});
-
-  if (negatedGlobs.length > 0) {
-    for (var i = 0; i < negatedGlobs.length; i++) {
-      const nglob = negatedGlobs[i];
-      if (picomatch(nglob)(unixified)) {
-        return returnIndex ? -1 : false;
-      }
-    }
-  }
-
-  const patterns = arrified.map(createPattern);
-  for (let index = 0; index < patterns.length; index++) {
-    const pattern = patterns[index];
-    if (pattern(unixified)) {
-      return returnIndex ? index : true;
-    }
-  }
-
-  return returnIndex ? -1 : false;
+  return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
 };
 
 module.exports = anymatch;
