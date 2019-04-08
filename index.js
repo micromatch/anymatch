@@ -20,7 +20,6 @@ const createPattern = (matcher) => {
   if (typeof matcher === 'function') {
     return matcher;
   }
-  const isString = typeof matcher === 'string';
   if (typeof matcher === 'string') {
     const glob = picomatch(matcher);
     return (string) => matcher === string || glob(string);
