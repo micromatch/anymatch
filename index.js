@@ -2,7 +2,6 @@
 
 const picomatch = require('picomatch');
 const normalizePath = require('normalize-path');
-const {sep} = require('path'); // required for tests.
 
 /**
  * @typedef {(string:String) => boolean} AnymatchFn
@@ -14,36 +13,33 @@ const BANG = '!';
 const arrify = (item) => Array.isArray(item) ? item : [item];
 
 /**
- *
  * @param {AnymatchPattern} matcher
- * @returns {AnymatchFn}
+ * @returns {Function}
  */
 const createPattern = (matcher) => {
-  const isString = typeof matcher === 'string';
-  let glob;
-  if (isString) glob = picomatch(matcher);
-  return (string) => {
-    if (typeof matcher === 'function') {
-      return matcher(string);
-    }
-    if (isString) {
-      return matcher === string || glob(string);
-    }
-    if (matcher instanceof RegExp) {
-      return matcher.test(string);
-    }
-    return false;
+  if (typeof matcher === 'function') {
+    return matcher;
   }
+  const isString = typeof matcher === 'string';
+  if (typeof matcher === 'string') {
+    const glob = picomatch(matcher);
+    return (string) => matcher === string || glob(string);
+  }
+  if (matcher instanceof RegExp) {
+    return (string) => matcher.test(string);
+  }
+  return (string) => false;
 };
 
 /**
  * @param {Array<AnymatchFn>} patterns
  * @param {Array<AnymatchFn>} negatedGlobs
- * @param {String} path
+ * @param {String|Array} path
  * @param {Boolean} returnIndex
  */
 const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
-  const upath = normalizePath(path);
+  const additionalArgs = Array.isArray(path);
+  const upath = normalizePath(additionalArgs ? path[0] : path);
   if (negatedGlobs.length > 0) {
     for (let index = 0; index < negatedGlobs.length; index++) {
       const nglob = negatedGlobs[index];
@@ -54,8 +50,14 @@ const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
   }
   for (let index = 0; index < patterns.length; index++) {
     const pattern = patterns[index];
-    if (pattern(upath)) {
-      return returnIndex ? index : true;
+    if (additionalArgs) {
+      if (pattern(...path)) {
+        return returnIndex ? index : true;
+      }
+    } else {
+      if (pattern(upath)) {
+        return returnIndex ? index : true;
+      }
     }
   }
 
@@ -64,7 +66,7 @@ const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
 
 /**
  * @param {AnymatchMatcher} matchers
- * @param {String} testString
+ * @param {String|Array<String>} testString
  * @param {Boolean=} returnIndex
  * @returns {boolean|Number|Function}
  */
@@ -86,7 +88,7 @@ const anymatch = (matchers, testString, returnIndex = false) => {
       return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
     }
   }
-  if (typeof testString !== 'string') {
+  if (!Array.isArray(testString) && typeof testString !== 'string') {
     throw new TypeError('anymatch: second argument must be a string: got ' +
       Object.prototype.toString.call(testString))
   }

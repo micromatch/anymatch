@@ -1,8 +1,8 @@
 'use strict';
 
-var anymatch = require('./');
-var assert = require('assert');
-var path = require('path');
+let anymatch = require('./');
+let assert = require('assert');
+let path = require('path');
 
 describe('anymatch', () => {
   var matchers = [
@@ -96,8 +96,36 @@ describe('anymatch', () => {
     it('should not allow no args', () => {
       assert.throws(() => anymatch());
     })
-    it('should not allow string to be passed as first member of an array', () => {
-      assert.throws(() => anymatch(matchers, ['path/to/bar.js']));
+    it('should not allow bad testString', () => {
+      assert.throws(() => anymatch(matchers, {path: 'path/to/bar.js'}));
+    });
+    it('should allow string to be passed as first member of an array', () => {
+      assert.doesNotThrow(() => anymatch(matchers, ['path/to/bar.js']));
+    });
+
+    it('should pass extra args to function matchers', () => {
+      matchers.push((string, arg1, arg2) => arg1 || arg2);
+      assert(!anymatch(matchers, 'bar.js'), 1);
+      assert(!anymatch(matchers, ['bar.js', 0]), 2);
+      assert(anymatch(matchers, ['bar.js', true]), 3);
+      assert(anymatch(matchers, ['bar.js', 0, true]), 4);
+      // with returnIndex
+      assert.equal(anymatch(matchers, ['bar.js', 1], true), 4, 5);
+      // curried versions
+      var matchFn1 = anymatch(matchers);
+      var matchFn2 = anymatch(matchers[4]);
+      assert(!matchFn1(['bar.js', 0]), 6);
+      assert(!matchFn2(['bar.js', 0]), 7);
+      assert(matchFn1(['bar.js', true]), 8);
+      assert(matchFn2(['bar.js', true]), 9);
+      assert(matchFn1(['bar.js', 0, true]), 10);
+      assert(matchFn2(['bar.js', 0, true]), 11);
+      // curried with returnIndex
+      assert.equal(matchFn1(['bar.js', 1], true), 4, 12);
+      assert.equal(matchFn2(['bar.js', 1], true), 0, 13);
+      assert.equal(matchFn1(['bar.js', 0], true), -1, 14);
+      assert.equal(matchFn2(['bar.js', 0], true), -1, 15);
+      matchers.pop();
     });
   });
 

@@ -19,7 +19,10 @@ npm install anymatchx
 String to be directly matched, string with glob patterns, regular expression
 test, function that takes the testString as an argument and returns a truthy
 value if it should be matched, or an array of any number and mix of these types.
-* __testString__: (_String) The string to test against the matchers.
+* __testString__: (_String|Array_) The string to test against the matchers. If
+passed as an array, the first element of the array will be used as the
+`testString` for non-function matchers, while the entire array will be applied
+as the arguments for function matchers.
 * __returnIndex__: (_Boolean [optional]_) If true, return the array index of
 the first matcher that that testString matched, or -1 if no match, instead of a
 boolean result.
@@ -43,9 +46,6 @@ anymatch(matchers, 'bar.js'); // false
 // returnIndex = true
 anymatch(matchers, 'foo.js', true); // 2
 anymatch(matchers, 'path/anyjs/foo.js', true); // 1
-
-// skip matchers
-anymatch(matchers, 'path/to/file.js', false, 1); // false
 
 // using globs to match directories and their children
 anymatch('node_modules', 'node_modules'); // true
@@ -73,7 +73,7 @@ Change Log
 ----------
 [See release notes page on GitHub](https://github.com/micromatch/anymatch/releases)
 
-- **v3.0:**: `testString` can no longer be an Array. Removed `startIndex` and `endIndex` arguments.
+- **v3.0:**: Removed `startIndex` and `endIndex` arguments.
 - **v2.0:** [micromatch](https://github.com/jonschlinkert/micromatch) moves away from minimatch-parity and inline with Bash. This includes handling backslashes differently (see https://github.com/micromatch/micromatch#backslashes for more information).
 - **v1.2:** anymatch uses [micromatch](https://github.com/jonschlinkert/micromatch)
 for glob pattern matching. Issues with glob pattern matching should be
