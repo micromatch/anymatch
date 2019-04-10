@@ -1,6 +1,6 @@
 {
   "name": "anymatch",
-  "version": "3.0.0-pre",
+  "version": "3.0.0",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
   "files": [
     "index.js",
