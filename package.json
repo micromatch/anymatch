@@ -42,7 +42,7 @@
     "picomatch": "^2.0.3"
   },
   "devDependencies": {
-    "nyc": "^13.3.0",
-    "mocha": "^6.1.1"
+    "mocha": "^6.1.2",
+    "nyc": "^13.3.0"
   }
 }
