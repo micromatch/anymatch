@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "normalize-path": "^3.0.0",
-    "picomatch": "github:micromatch/picomatch#dev"
+    "picomatch": "^2.0.3"
   },
   "devDependencies": {
     "nyc": "^13.3.0",
