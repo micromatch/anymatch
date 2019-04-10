@@ -4,7 +4,9 @@ const picomatch = require('picomatch');
 const normalizePath = require('normalize-path');
 
 /**
- * @typedef {(string:String) => boolean} AnymatchFn
+ * @typedef {(...args) => boolean} BooleanFn
+ * @typedef {(string) => boolean} StrBoolFn
+ * @typedef {BooleanFn|StrBoolFn} AnymatchFn
  * @typedef {string|RegExp|AnymatchFn} AnymatchPattern
  * @typedef {AnymatchPattern|Array<AnymatchPattern>} AnymatchMatcher
  */
@@ -14,7 +16,7 @@ const arrify = (item) => Array.isArray(item) ? item : [item];
 
 /**
  * @param {AnymatchPattern} matcher
- * @returns {Function}
+ * @returns {AnymatchFn}
  */
 const createPattern = (matcher) => {
   if (typeof matcher === 'function') {
@@ -31,8 +33,8 @@ const createPattern = (matcher) => {
 };
 
 /**
- * @param {Array<AnymatchFn>} patterns
- * @param {Array<AnymatchFn>} negatedGlobs
+ * @param {Array<Function>} patterns
+ * @param {Array<Function>} negatedGlobs
  * @param {String|Array} path
  * @param {Boolean} returnIndex
  */

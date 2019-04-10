@@ -30,12 +30,7 @@ boolean result.
 ```js
 const anymatch = require('anymatch');
 
-const matchers = [
-	'path/to/file.js',
-	'path/anyjs/**/*.js',
-	/foo\.js$/,
-	(string) => string.includes('bar') && string.length > 10
-];
+const matchers = [ 'path/to/file.js', 'path/anyjs/**/*.js', /foo.js$/, string => string.includes('bar') && string.length > 10 ] ;
 
 anymatch(matchers, 'path/to/file.js'); // true
 anymatch(matchers, 'path/anyjs/baz.js'); // true
@@ -53,6 +48,11 @@ anymatch('node_modules', 'node_modules/somelib/index.js'); // false
 anymatch('node_modules/**', 'node_modules/somelib/index.js'); // true
 anymatch('node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'); // false
 anymatch('**/node_modules/**', '/absolute/path/to/node_modules/somelib/index.js'); // true
+
+const matcher = anymatch(matchers);
+['foo.js', 'bar.js'].filter(matcher);  // [ 'foo.js' ]
+anymatch master* ❯
+
 ```
 
 #### anymatch(matchers)
