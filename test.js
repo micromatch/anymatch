@@ -105,26 +105,26 @@ describe('anymatch', () => {
 
     it('should pass extra args to function matchers', () => {
       matchers.push((string, arg1, arg2) => arg1 || arg2);
-      assert(!anymatch(matchers, 'bar.js'), 1);
-      assert(!anymatch(matchers, ['bar.js', 0]), 2);
-      assert(anymatch(matchers, ['bar.js', true]), 3);
-      assert(anymatch(matchers, ['bar.js', 0, true]), 4);
+      assert(!anymatch(matchers, 'bar.js'), '1');
+      assert(!anymatch(matchers, ['bar.js', 0]), '2');
+      assert(anymatch(matchers, ['bar.js', true]), '3');
+      assert(anymatch(matchers, ['bar.js', 0, true]), '4');
       // with returnIndex
-      assert.equal(anymatch(matchers, ['bar.js', 1], true), 4, 5);
+      assert.equal(anymatch(matchers, ['bar.js', 1], true), 4, '5');
       // curried versions
       var matchFn1 = anymatch(matchers);
       var matchFn2 = anymatch(matchers[4]);
-      assert(!matchFn1(['bar.js', 0]), 6);
-      assert(!matchFn2(['bar.js', 0]), 7);
-      assert(matchFn1(['bar.js', true]), 8);
-      assert(matchFn2(['bar.js', true]), 9);
-      assert(matchFn1(['bar.js', 0, true]), 10);
-      assert(matchFn2(['bar.js', 0, true]), 11);
+      assert(!matchFn1(['bar.js', 0]), '6');
+      assert(!matchFn2(['bar.js', 0]), '7');
+      assert(matchFn1(['bar.js', true]), '8');
+      assert(matchFn2(['bar.js', true]), '9');
+      assert(matchFn1(['bar.js', 0, true]), '10');
+      assert(matchFn2(['bar.js', 0, true]), '11');
       // curried with returnIndex
-      assert.equal(matchFn1(['bar.js', 1], true), 4, 12);
-      assert.equal(matchFn2(['bar.js', 1], true), 0, 13);
-      assert.equal(matchFn1(['bar.js', 0], true), -1, 14);
-      assert.equal(matchFn2(['bar.js', 0], true), -1, 15);
+      assert.equal(matchFn1(['bar.js', 1], true), 4, '12');
+      assert.equal(matchFn2(['bar.js', 1], true), 0, '13');
+      assert.equal(matchFn1(['bar.js', 0], true), -1, '14');
+      assert.equal(matchFn2(['bar.js', 0], true), -1, '15');
       matchers.pop();
     });
   });

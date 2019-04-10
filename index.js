@@ -67,9 +67,9 @@ const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
 
 /**
  * @param {AnymatchMatcher} matchers
- * @param {String|Array<String>} testString
+ * @param {Array|string} testString
  * @param {Boolean=} returnIndex
- * @returns {boolean|Number|Function}
+ * @returns {boolean|number|Function}
  */
 const anymatch = (matchers, testString, returnIndex = false) => {
   if (matchers == null) {
