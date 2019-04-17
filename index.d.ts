@@ -2,7 +2,7 @@
 
 import sep from 'path';
 
-type AnymatchFn = (string) => boolean;
+type AnymatchFn = (testString: string) => boolean;
 type AnymatchPattern = string|RegExp|AnymatchFn;
 type AnymatchMatcher = AnymatchPattern|Array<AnymatchPattern>
 declare function anymatch(matchers: AnymatchMatcher, testString: string|Array<any>): boolean;
