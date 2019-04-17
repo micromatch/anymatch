@@ -4,13 +4,10 @@ const picomatch = require('picomatch');
 const normalizePath = require('normalize-path');
 
 /**
- * @typedef {(...args) => boolean} BooleanFn
- * @typedef {(string) => boolean} StrBoolFn
- * @typedef {BooleanFn|StrBoolFn} AnymatchFn
+ * @typedef {(testString: string) => boolean} AnymatchFn
  * @typedef {string|RegExp|AnymatchFn} AnymatchPattern
- * @typedef {AnymatchPattern|Array<AnymatchPattern>} AnymatchMatcher
+ * @typedef {AnymatchPattern|AnymatchPattern[]} AnymatchMatcher
  */
-
 const BANG = '!';
 const arrify = (item) => Array.isArray(item) ? item : [item];
 
@@ -37,28 +34,22 @@ const createPattern = (matcher) => {
  * @param {Array<Function>} negatedGlobs
  * @param {String|Array} path
  * @param {Boolean} returnIndex
+ * @returns {boolean|number}
  */
 const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
   const additionalArgs = Array.isArray(path);
   const upath = normalizePath(additionalArgs ? path[0] : path);
-  if (negatedGlobs.length > 0) {
-    for (let index = 0; index < negatedGlobs.length; index++) {
-      const nglob = negatedGlobs[index];
-      if (nglob(upath)) {
-        return returnIndex ? -1 : false;
-      }
+  for (let index = 0; index < negatedGlobs.length; index++) {
+    const nglob = negatedGlobs[index];
+    if (nglob(upath)) {
+      return returnIndex ? -1 : false;
     }
   }
+  const args = additionalArgs && [upath].concat(path.slice(1));
   for (let index = 0; index < patterns.length; index++) {
     const pattern = patterns[index];
-    if (additionalArgs) {
-      if (pattern(...path)) {
-        return returnIndex ? index : true;
-      }
-    } else {
-      if (pattern(upath)) {
-        return returnIndex ? index : true;
-      }
+    if (additionalArgs ? pattern(...args) : pattern(upath)) {
+      return returnIndex ? index : true;
     }
   }
 
