@@ -1,6 +1,6 @@
 // type
 
-import sep from 'path';
+import {sep} from 'path';
 
 type AnymatchFn = (testString: string) => boolean;
 type AnymatchPattern = string|RegExp|AnymatchFn;
