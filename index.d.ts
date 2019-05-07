@@ -15,4 +15,7 @@ declare const anymatch: {
   (matchers: AnymatchMatcher, testString: string|any[], returnIndex: true): number;
   (matchers: AnymatchMatcher, testString: string|any[]): boolean;
 }
-export = anymatch
+
+export {AnymatchMatcher as Matcher}
+export {AnymatchTester as Tester}
+export default anymatch
