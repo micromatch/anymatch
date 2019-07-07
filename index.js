@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", { value: true });
+
 const picomatch = require('picomatch');
 const normalizePath = require('normalize-path');
 
@@ -88,4 +90,5 @@ const anymatch = (matchers, testString, returnIndex = false) => {
   return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
 };
 
+exports.default = anymatch;
 module.exports = anymatch;

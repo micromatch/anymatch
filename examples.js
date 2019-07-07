@@ -1,7 +1,7 @@
 const inspect = require('util').inspect;
 const i = function (val) {return inspect(val, {colors: true})};
 
-const origAnymatch = require('./');
+const origAnymatch = require('./').default;
 console.log("const anymatch = require('anymatch');\n");
 
 const matchers = [
