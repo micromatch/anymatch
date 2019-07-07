@@ -90,5 +90,5 @@ const anymatch = (matchers, testString, returnIndex = false) => {
   return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
 };
 
-exports.default = anymatch;
+anymatch.default = anymatch;
 module.exports = anymatch;
