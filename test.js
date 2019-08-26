@@ -97,7 +97,7 @@ describe('anymatch', () => {
       assert.throws(() => anymatch());
     })
     it('should not allow bad testString', () => {
-      assert.throws(() => anymatch(matchers, {path: 'path/to/bar.js'}));
+      assert.throws(() => anymatch(matchers, { path: 'path/to/bar.js' }));
     });
     it('should allow string to be passed as first member of an array', () => {
       assert.doesNotThrow(() => anymatch(matchers, ['path/to/bar.js']));
@@ -181,6 +181,13 @@ describe('anymatch', () => {
       assert(anymatch(matchers)('path/to/file.js'));
       assert(!anymatch(matchers, 'path/no/no.js'));
       assert(!anymatch(matchers)('path/no/no.js'));
+    });
+  });
+
+  describe('picomatch options', () => {
+    it('should support picomatch options', () => {
+      assert.equal(false, anymatch('path/to/?dotfile', 'path/to/.dotfile'));
+      assert.equal(true, anymatch('path/to/?dotfile', 'path/to/.dotfile', false, { dot: true }));
     });
   });
 });

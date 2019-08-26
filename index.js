@@ -15,14 +15,15 @@ const arrify = (item) => Array.isArray(item) ? item : [item];
 
 /**
  * @param {AnymatchPattern} matcher
+ * @param {object} options
  * @returns {AnymatchFn}
  */
-const createPattern = (matcher) => {
+const createPattern = (matcher, options) => {
   if (typeof matcher === 'function') {
     return matcher;
   }
   if (typeof matcher === 'string') {
-    const glob = picomatch(matcher);
+    const glob = picomatch(matcher, options);
     return (string) => matcher === string || glob(string);
   }
   if (matcher instanceof RegExp) {
@@ -62,9 +63,10 @@ const matchPatterns = (patterns, negatedGlobs, path, returnIndex) => {
  * @param {AnymatchMatcher} matchers
  * @param {Array|string} testString
  * @param {boolean=} returnIndex
+ * @param {object} options
  * @returns {boolean|number|Function}
  */
-const anymatch = (matchers, testString, returnIndex = false) => {
+const anymatch = (matchers, testString, returnIndex = false, options = undefined) => {
   if (matchers == null) {
     throw new TypeError('anymatch: specify first argument');
   }
@@ -73,8 +75,8 @@ const anymatch = (matchers, testString, returnIndex = false) => {
   const negatedGlobs = mtchers
     .filter(item => typeof item === 'string' && item.charAt(0) === BANG)
     .map(item => item.slice(1))
-    .map(item => picomatch(item));
-  const patterns = mtchers.map(createPattern);
+    .map(item => picomatch(item, options));
+  const patterns = mtchers.map(matcher => createPattern(matcher, options));
 
   if (testString == null) {
     return (testString, ri = false) => {

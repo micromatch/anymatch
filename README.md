@@ -14,7 +14,7 @@ Usage
 npm install anymatch
 ```
 
-#### anymatch(matchers, testString, [returnIndex])
+#### anymatch(matchers, testString, [returnIndex], [options])
 * __matchers__: (_Array|String|RegExp|Function_)
 String to be directly matched, string with glob patterns, regular expression
 test, function that takes the testString as an argument and returns a truthy
@@ -26,6 +26,7 @@ as the arguments for function matchers.
 * __returnIndex__: (_Boolean [optional]_) If true, return the array index of
 the first matcher that that testString matched, or -1 if no match, instead of a
 boolean result.
+* __options__: (_Object_ [optional]_) Any of the [picomatch](https://github.com/micromatch/picomatch#options) options.
 
 ```js
 const anymatch = require('anymatch');
