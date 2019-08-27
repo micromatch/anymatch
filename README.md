@@ -23,10 +23,10 @@ value if it should be matched, or an array of any number and mix of these types.
 passed as an array, the first element of the array will be used as the
 `testString` for non-function matchers, while the entire array will be applied
 as the arguments for function matchers.
-* __returnIndex__: (_Boolean [optional]_) If true, return the array index of
+* __options__: (_Object_ [optional]_) Any of the [picomatch](https://github.com/micromatch/picomatch#options) options.
+    * __returnIndex__: (_Boolean [optional]_) If true, return the array index of
 the first matcher that that testString matched, or -1 if no match, instead of a
 boolean result.
-* __options__: (_Object_ [optional]_) Any of the [picomatch](https://github.com/micromatch/picomatch#options) options.
 
 ```js
 const anymatch = require('anymatch');
@@ -40,8 +40,10 @@ anymatch(matchers, 'path/to/bar.js'); // true
 anymatch(matchers, 'bar.js'); // false
 
 // returnIndex = true
-anymatch(matchers, 'foo.js', true); // 2
-anymatch(matchers, 'path/anyjs/foo.js', true); // 1
+anymatch(matchers, 'foo.js', {returnIndex: true}); // 2
+anymatch(matchers, 'path/anyjs/foo.js', {returnIndex: true}); // 1
+
+// any picomatc
 
 // using globs to match directories and their children
 anymatch('node_modules', 'node_modules'); // true

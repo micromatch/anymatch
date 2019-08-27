@@ -187,7 +187,7 @@ describe('anymatch', () => {
   describe('picomatch options', () => {
     it('should support picomatch options', () => {
       assert.equal(false, anymatch('path/to/?dotfile', 'path/to/.dotfile'));
-      assert.equal(true, anymatch('path/to/?dotfile', 'path/to/.dotfile', false, { dot: true }));
+      assert.equal(true, anymatch('path/to/?dotfile', 'path/to/.dotfile', { dot: true }));
     });
   });
 });
