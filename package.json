@@ -6,6 +6,10 @@
     "index.js",
     "index.d.ts"
   ],
+  "dependencies": {
+    "normalize-path": "^3.0.0",
+    "picomatch": "^2.0.4"
+  },
   "author": {
     "name": "Elan Shanker",
     "url": "http://github.com/es128"
@@ -37,12 +41,11 @@
     "test": "nyc mocha",
     "mocha": "mocha"
   },
-  "dependencies": {
-    "normalize-path": "^3.0.0",
-    "picomatch": "^2.0.4"
-  },
   "devDependencies": {
     "mocha": "^6.1.3",
     "nyc": "^14.0.0"
+  },
+  "engines": {
+    "node": ">= 8"
   }
 }
