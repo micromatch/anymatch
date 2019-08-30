@@ -1,6 +1,6 @@
 {
   "name": "anymatch",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
   "files": [
     "index.js",
@@ -12,16 +12,13 @@
   },
   "author": {
     "name": "Elan Shanker",
-    "url": "http://github.com/es128"
+    "url": "https://github.com/es128"
   },
   "license": "ISC",
   "homepage": "https://github.com/micromatch/anymatch",
   "repository": {
     "type": "git",
     "url": "https://github.com/micromatch/anymatch"
-  },
-  "bugs": {
-    "url": "https://github.com/micromatch/anymatch/issues"
   },
   "keywords": [
     "match",
