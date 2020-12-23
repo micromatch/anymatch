@@ -130,7 +130,7 @@ describe('anymatch', () => {
   });
 
   describe('glob negation', () => {
-    after(matchers.splice.bind(matchers, 4, 2));
+    after(matchers.splice.bind(matchers, 4, 3));
 
     it('should respect negated globs included in a matcher array', () => {
       assert(anymatch(matchers, 'path/anyjs/no/no.js'), 'matches existing glob');
@@ -149,6 +149,12 @@ describe('anymatch', () => {
       matchers.push('!path/to/bar.*');
       assert(!anymatch(matchers, 'path/to/bar.js'));
     });
+    it('should not match negated matchers if positive matchers do not match', () => {
+      assert(!anymatch(matchers, 'path/anyjs/no/no.ts'), 'does not match existing glob');
+      matchers.push('!path/anyjs/ts/*.js');
+      assert(!anymatch(matchers, 'path/anyjs/no/no.ts'), 'should not be negated');
+      assert(!anymatch(matchers)('path/anyjs/no/no.ts'), 'should not be negated (curried)');
+    })
   });
 
   describe('windows paths', () => {
