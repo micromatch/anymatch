@@ -7,6 +7,7 @@
     "index.d.ts"
   ],
   "dependencies": {
+    "@types/picomatch": "^2.3.0",
     "normalize-path": "^3.0.0",
     "picomatch": "^2.0.4"
   },
