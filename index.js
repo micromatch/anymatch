@@ -13,6 +13,14 @@ const normalizePath = require('normalize-path');
 const BANG = '!';
 const DEFAULT_OPTIONS = {returnIndex: false};
 const arrify = (item) => Array.isArray(item) ? item : [item];
+const isRegExp = (val) => {
+  if (val instanceof RegExp) return true;
+  return typeof val.flags === 'string'
+    && typeof val.ignoreCase === 'boolean'
+    && typeof val.multiline === 'boolean'
+    && typeof val.global === 'boolean';
+}
+
 
 /**
  * @param {AnymatchPattern} matcher
@@ -27,7 +35,7 @@ const createPattern = (matcher, options) => {
     const glob = picomatch(matcher, options);
     return (string) => matcher === string || glob(string);
   }
-  if (matcher instanceof RegExp) {
+  if (isRegExp(matcher)) {
     return (string) => matcher.test(string);
   }
   return (string) => false;
