@@ -39,6 +39,9 @@ describe('anymatch', () => {
     assert.equal(false, anymatch(emptyObj, ''));
     assert.equal(false, anymatch(Infinity, ''));
   });
+  it('should keep trailing separators on paths to match /*/ globs', () => {
+    assert.equal(true, anymatch('path/to/*/', 'path/to/dir/'));
+  });
 
   describe('with returnIndex = true', () => {
     it('should return the array index of first positive matcher', () => {
