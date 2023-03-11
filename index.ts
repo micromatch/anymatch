@@ -86,4 +86,3 @@ export const anymatch = (matchers: AnymatchMatcher, testString: Array<unknown>|s
 };
 
 export default anymatch
-exports = anymatch

@@ -2,10 +2,10 @@
 	"compilerOptions": {
 		"alwaysStrict": true,
 		"esModuleInterop": true,		
-		"module": "UMD",
+		"module": "CommonJS",
 		"moduleResolution": "node16",
 		"noImplicitAny": true,
-		"outDir": ".",
+		"outDir": "./cjs",
 		"preserveConstEnums": true,
 		"removeComments": true,		
 		"sourceMap": true,				

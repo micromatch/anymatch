@@ -3,8 +3,13 @@
   "version": "4.0.0-dev.1",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
   "files": [
-    "index.js",
-    "index.d.ts"
+    "index.cjs",
+    "index.mjs",
+    "index.ts",
+    "cjs/index.js",
+    "cjs/index.js.map",
+    "mjs/index.js",
+    "mjs/index.js.map"
   ],
   "dependencies": {
     "normalize-path": "^3.0.0",
@@ -38,7 +43,7 @@
   "scripts": {
     "test": "nyc mocha",
     "mocha": "mocha",
-    "build": "tsc -b"
+    "build": "tsc -b && tsc -p tsconfig.esm.json"
   },
   "devDependencies": {
     "@types/node": "^18.15.0",
