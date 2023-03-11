@@ -1,104 +1,85 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-const picomatch = require('picomatch');
-const normalizePath = require('normalize-path');
-
-/**
- * @typedef {(testString: string) => boolean} AnymatchFn
- * @typedef {string|RegExp|AnymatchFn} AnymatchPattern
- * @typedef {AnymatchPattern|AnymatchPattern[]} AnymatchMatcher
- */
-const BANG = '!';
-const DEFAULT_OPTIONS = {returnIndex: false};
-const arrify = (item) => Array.isArray(item) ? item : [item];
-
-/**
- * @param {AnymatchPattern} matcher
- * @param {object} options
- * @returns {AnymatchFn}
- */
-const createPattern = (matcher, options) => {
-  if (typeof matcher === 'function') {
-    return matcher;
-  }
-  if (typeof matcher === 'string') {
-    const glob = picomatch(matcher, options);
-    return (string) => matcher === string || glob(string);
-  }
-  if (matcher instanceof RegExp) {
-    return (string) => matcher.test(string);
-  }
-  return (string) => false;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-/**
- * @param {Array<Function>} patterns
- * @param {Array<Function>} negPatterns
- * @param {String|Array} args
- * @param {Boolean} returnIndex
- * @returns {boolean|number}
- */
-const matchPatterns = (patterns, negPatterns, args, returnIndex) => {
-  const isList = Array.isArray(args);
-  const _path = isList ? args[0] : args;
-  if (!isList && typeof _path !== 'string') {
-    throw new TypeError('anymatch: second argument must be a string: got ' +
-      Object.prototype.toString.call(_path))
-  }
-  const path = normalizePath(_path, false);
-
-  for (let index = 0; index < negPatterns.length; index++) {
-    const nglob = negPatterns[index];
-    if (nglob(path)) {
-      return returnIndex ? -1 : false;
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
     }
-  }
-
-  const applied = isList && [path].concat(args.slice(1));
-  for (let index = 0; index < patterns.length; index++) {
-    const pattern = patterns[index];
-    if (isList ? pattern(...applied) : pattern(path)) {
-      return returnIndex ? index : true;
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "picomatch", "normalize-path"], factory);
     }
-  }
-
-  return returnIndex ? -1 : false;
-};
-
-/**
- * @param {AnymatchMatcher} matchers
- * @param {Array|string} testString
- * @param {object} options
- * @returns {boolean|number|Function}
- */
-const anymatch = (matchers, testString, options = DEFAULT_OPTIONS) => {
-  if (matchers == null) {
-    throw new TypeError('anymatch: specify first argument');
-  }
-  const opts = typeof options === 'boolean' ? {returnIndex: options} : options;
-  const returnIndex = opts.returnIndex || false;
-
-  // Early cache for matchers.
-  const mtchers = arrify(matchers);
-  const negatedGlobs = mtchers
-    .filter(item => typeof item === 'string' && item.charAt(0) === BANG)
-    .map(item => item.slice(1))
-    .map(item => picomatch(item, opts));
-  const patterns = mtchers
-    .filter(item => typeof item !== 'string' || (typeof item === 'string' && item.charAt(0) !== BANG))
-    .map(matcher => createPattern(matcher, opts));
-
-  if (testString == null) {
-    return (testString, ri = false) => {
-      const returnIndex = typeof ri === 'boolean' ? ri : false;
-      return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
-    }
-  }
-
-  return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
-};
-
-anymatch.default = anymatch;
-module.exports = anymatch;
+})(function (require, exports) {
+    'use strict';
+    exports.__esModule = true;
+    exports.anymatch = void 0;
+    var picomatch_1 = __importDefault(require("picomatch"));
+    var normalize_path_1 = __importDefault(require("normalize-path"));
+    var BANG = '!';
+    var DEFAULT_OPTIONS = { returnIndex: false };
+    var arrify = function (item) { return Array.isArray(item) ? item : [item]; };
+    var createPattern = function (matcher, options) {
+        if (typeof matcher === 'function') {
+            return matcher;
+        }
+        if (typeof matcher === 'string') {
+            var glob_1 = (0, picomatch_1["default"])(matcher, options);
+            return function (string) { return matcher === string || glob_1(string); };
+        }
+        if (matcher instanceof RegExp) {
+            return function (string) { return matcher.test(string); };
+        }
+        return function () { return false; };
+    };
+    var matchPatterns = function (patterns, negPatterns, args, returnIndex) {
+        var isList = Array.isArray(args);
+        var _path = isList ? args[0] : args;
+        if (!isList && typeof _path !== 'string') {
+            throw new TypeError('anymatch: second argument must be a string: got ' +
+                Object.prototype.toString.call(_path));
+        }
+        var path = (0, normalize_path_1["default"])(_path, false);
+        for (var index = 0; index < negPatterns.length; index++) {
+            var nglob = negPatterns[index];
+            if (nglob(path)) {
+                return returnIndex ? -1 : false;
+            }
+        }
+        var applied = isList && [path].concat(args.slice(1));
+        for (var index = 0; index < patterns.length; index++) {
+            var pattern = patterns[index];
+            if (isList ? pattern.apply(void 0, applied) : pattern(path)) {
+                return returnIndex ? index : true;
+            }
+        }
+        return returnIndex ? -1 : false;
+    };
+    var anymatch = function (matchers, testString, options) {
+        if (options === void 0) { options = DEFAULT_OPTIONS; }
+        if (matchers == null) {
+            throw new TypeError('anymatch: specify first argument');
+        }
+        var opts = typeof options === 'boolean' ? { returnIndex: options } : options;
+        var returnIndex = opts.returnIndex || false;
+        var mtchers = arrify(matchers);
+        var negatedGlobs = mtchers
+            .filter(function (item) { return typeof item === 'string' && item.charAt(0) === BANG; })
+            .map(function (item) { return item.slice(1); })
+            .map(function (item) { return (0, picomatch_1["default"])(item, opts); });
+        var patterns = mtchers
+            .filter(function (item) { return typeof item !== 'string' || (typeof item === 'string' && item.charAt(0) !== BANG); })
+            .map(function (matcher) { return createPattern(matcher, opts); });
+        if (testString == null) {
+            return function (testString, ri) {
+                if (ri === void 0) { ri = false; }
+                var returnIndex = typeof ri === 'boolean' ? ri : false;
+                return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
+            };
+        }
+        return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
+    };
+    exports.anymatch = anymatch;
+    exports["default"] = exports.anymatch;
+    exports = exports.anymatch;
+});
+//# sourceMappingURL=index.js.map

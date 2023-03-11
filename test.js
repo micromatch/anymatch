@@ -1,6 +1,6 @@
 'use strict';
 
-let anymatch = require('./');
+let {anymatch} = require('./');
 let assert = require('assert');
 let path = require('path');
 

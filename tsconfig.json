@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"alwaysStrict": true,
+		"esModuleInterop": true,		
+		"module": "UMD",
+		"moduleResolution": "node16",
+		"noImplicitAny": true,
+		"outDir": ".",
+		"preserveConstEnums": true,
+		"removeComments": true,		
+		"sourceMap": true,				
+	},
+	"files": [
+	  "index.ts",
+	],
+}
