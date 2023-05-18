@@ -2,10 +2,16 @@
   "name": "anymatch",
   "version": "4.0.0-dev.1",
   "description": "Matches strings against configurable strings, globs, regular expressions, and/or functions",
+  "main": "index.cjs",
+  "exports": {
+    ".": {
+      "require": "./index.cjs",
+      "import": "./index.mjs"
+    }
+  },
   "files": [
     "index.cjs",
     "index.mjs",
-    "index.ts",
     "cjs/index.js",
     "cjs/index.js.map",
     "mjs/index.js",
@@ -14,7 +20,7 @@
   "dependencies": {
     "normalize-path": "^3.0.0",
     "picomatch": "^2.3.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   },
   "author": {
     "name": "Elan Shanker",
@@ -46,7 +52,7 @@
     "build": "tsc -b && tsc -p tsconfig.esm.json"
   },
   "devDependencies": {
-    "@types/node": "^18.15.0",
+    "@types/node": "^20.2.1",
     "@types/normalize-path": "^3.0.0",
     "@types/picomatch": "^2.3.0",
     "mocha": "^10.2.0",

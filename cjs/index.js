@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.anymatch = void 0;
 var picomatch_1 = __importDefault(require("picomatch"));
 var normalize_path_1 = __importDefault(require("normalize-path"));
@@ -14,7 +14,7 @@ var createPattern = function (matcher, options) {
         return matcher;
     }
     if (typeof matcher === 'string') {
-        var glob_1 = (0, picomatch_1["default"])(matcher, options);
+        var glob_1 = (0, picomatch_1.default)(matcher, options);
         return function (string) { return matcher === string || glob_1(string); };
     }
     if (matcher instanceof RegExp) {
@@ -29,7 +29,7 @@ var matchPatterns = function (patterns, negPatterns, args, returnIndex) {
         throw new TypeError('anymatch: second argument must be a string: got ' +
             Object.prototype.toString.call(_path));
     }
-    var path = (0, normalize_path_1["default"])(_path, false);
+    var path = (0, normalize_path_1.default)(_path, false);
     for (var index = 0; index < negPatterns.length; index++) {
         var nglob = negPatterns[index];
         if (nglob(path)) {
@@ -53,10 +53,11 @@ var anymatch = function (matchers, testString, options) {
     var opts = typeof options === 'boolean' ? { returnIndex: options } : options;
     var returnIndex = opts.returnIndex || false;
     var mtchers = arrify(matchers);
-    var negatedGlobs = mtchers
-        .filter(function (item) { return typeof item === 'string' && item.charAt(0) === BANG; })
+    var stringBangedMatchers = (mtchers
+        .filter(function (item) { return typeof item === 'string' && item.charAt(0) === BANG; }));
+    var negatedGlobs = stringBangedMatchers
         .map(function (item) { return item.slice(1); })
-        .map(function (item) { return (0, picomatch_1["default"])(item, opts); });
+        .map(function (item) { return (0, picomatch_1.default)(item, opts); });
     var patterns = mtchers
         .filter(function (item) { return typeof item !== 'string' || (typeof item === 'string' && item.charAt(0) !== BANG); })
         .map(function (matcher) { return createPattern(matcher, opts); });
@@ -70,5 +71,5 @@ var anymatch = function (matchers, testString, options) {
     return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
 };
 exports.anymatch = anymatch;
-exports["default"] = exports.anymatch;
+exports.default = exports.anymatch;
 //# sourceMappingURL=index.js.map

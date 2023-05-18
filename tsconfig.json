@@ -1,7 +1,10 @@
 {
 	"compilerOptions": {
 		"alwaysStrict": true,
-		"esModuleInterop": true,		
+		"allowJs": true,
+		"checkJs": true,
+		"declaration": true,
+		"esModuleInterop": true,				
 		"module": "CommonJS",
 		"moduleResolution": "node16",
 		"noImplicitAny": true,
@@ -11,6 +14,6 @@
 		"sourceMap": true,				
 	},
 	"files": [
-	  "index.ts",
+	  "index.js",
 	],
 }

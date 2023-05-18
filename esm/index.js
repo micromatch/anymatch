@@ -48,8 +48,9 @@ export var anymatch = function (matchers, testString, options) {
     var opts = typeof options === 'boolean' ? { returnIndex: options } : options;
     var returnIndex = opts.returnIndex || false;
     var mtchers = arrify(matchers);
-    var negatedGlobs = mtchers
-        .filter(function (item) { return typeof item === 'string' && item.charAt(0) === BANG; })
+    var stringBangedMatchers = (mtchers
+        .filter(function (item) { return typeof item === 'string' && item.charAt(0) === BANG; }));
+    var negatedGlobs = stringBangedMatchers
         .map(function (item) { return item.slice(1); })
         .map(function (item) { return picomatch(item, opts); });
     var patterns = mtchers
