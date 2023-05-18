@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"alwaysStrict": true,
+		"allowJs": true,
+		"checkJs": true,
+		"declaration": true,
+		"esModuleInterop": true,				
+		"module": "CommonJS",
+		"moduleResolution": "node16",
+		"noImplicitAny": true,
+		"outDir": "./cjs",
+		"preserveConstEnums": true,
+		"removeComments": true,		
+		"sourceMap": true,				
+	},
+	"files": [
+	  "index.js",
+	],
+}

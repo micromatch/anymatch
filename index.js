@@ -1,22 +1,35 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+import picomatch from 'picomatch';
+import normalizePath from 'normalize-path';
 
-const picomatch = require('picomatch');
-const normalizePath = require('normalize-path');
 
 /**
+ * @typedef {import("picomatch").PicomatchOptions} PicomatchOptions
  * @typedef {(testString: string) => boolean} AnymatchFn
  * @typedef {string|RegExp|AnymatchFn} AnymatchPattern
  * @typedef {AnymatchPattern|AnymatchPattern[]} AnymatchMatcher
+ * @typedef {{returnIndex?: boolean}} returnIndexOptions
+ * @typedef {(testString: string, ri: boolean) => anymatchFn|boolean|number} anymatchFn
  */
+
 const BANG = '!';
-const DEFAULT_OPTIONS = {returnIndex: false};
-const arrify = (item) => Array.isArray(item) ? item : [item];
 
 /**
- * @param {AnymatchPattern} matcher
- * @param {object} options
+ * @type {returnIndexOptions}
+ */
+const DEFAULT_OPTIONS = {returnIndex: false};
+/**
+ * @template T
+ * @param {T|T[]} item 
+ * @returns {T[]}
+ */
+const arrify = (item) => Array.isArray(item) ? item : [item];
+
+
+/**
+ * @param {AnymatchPattern} matcher 
+ * @param {object} options 
  * @returns {AnymatchFn}
  */
 const createPattern = (matcher, options) => {
@@ -30,14 +43,14 @@ const createPattern = (matcher, options) => {
   if (matcher instanceof RegExp) {
     return (string) => matcher.test(string);
   }
-  return (string) => false;
+  return () => false;
 };
 
 /**
- * @param {Array<Function>} patterns
- * @param {Array<Function>} negPatterns
- * @param {String|Array} args
- * @param {Boolean} returnIndex
+ * @param {Function[]} patterns 
+ * @param {Function[]} negPatterns 
+ * @param {string|string[]} args 
+ * @param {boolean} returnIndex 
  * @returns {boolean|number}
  */
 const matchPatterns = (patterns, negPatterns, args, returnIndex) => {
@@ -67,23 +80,34 @@ const matchPatterns = (patterns, negPatterns, args, returnIndex) => {
   return returnIndex ? -1 : false;
 };
 
+
 /**
- * @param {AnymatchMatcher} matchers
- * @param {Array|string} testString
- * @param {object} options
- * @returns {boolean|number|Function}
+ * @param {AnymatchMatcher} matchers 
+ * @param {string|string[]} testString 
+ * @param {PicomatchOptions | returnIndexOptions | boolean} options 
+ * @returns {boolean|number|anymatchFn}
  */
-const anymatch = (matchers, testString, options = DEFAULT_OPTIONS) => {
+export const anymatch = (matchers, testString, options = DEFAULT_OPTIONS) => {
   if (matchers == null) {
     throw new TypeError('anymatch: specify first argument');
   }
+  /**
+   * @type {PicomatchOptions & returnIndexOptions}
+   */
   const opts = typeof options === 'boolean' ? {returnIndex: options} : options;
+  /**
+   * @type {boolean}
+   */
   const returnIndex = opts.returnIndex || false;
 
   // Early cache for matchers.
   const mtchers = arrify(matchers);
-  const negatedGlobs = mtchers
-    .filter(item => typeof item === 'string' && item.charAt(0) === BANG)
+  /**
+   * @type {string[]}
+   */
+  const stringBangedMatchers = /**@type {string[]} */ (mtchers
+  .filter(item => typeof item === 'string' && item.charAt(0) === BANG))
+  const negatedGlobs = stringBangedMatchers
     .map(item => item.slice(1))
     .map(item => picomatch(item, opts));
   const patterns = mtchers
@@ -100,5 +124,4 @@ const anymatch = (matchers, testString, options = DEFAULT_OPTIONS) => {
   return matchPatterns(patterns, negatedGlobs, testString, returnIndex);
 };
 
-anymatch.default = anymatch;
-module.exports = anymatch;
+export default anymatch
